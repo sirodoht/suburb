@@ -16,7 +16,7 @@ improvements.
 
 ## Deployment
 
-See [Deployment](docs/deployment.md) and [Playbook](docs/playbook.md)
+See [Deployment](docs/deployment.md) and [Playbook](docs/playbook.md).
 
 ## Testing
 
