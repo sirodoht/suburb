@@ -11,12 +11,12 @@ For a detailed methods paper, see
 
 ## This fork: sirodoht/polis
 
-This is a friendly fork to expirement with latest Node.js version and other
+This is a friendly fork to experiment with latest Node.js version and other
 improvements.
 
 ## Deployment
 
-See [Deployment](docs/deployment.md) and [Playbook](docs/playbook.md).
+See [Deployment](/docs/deployment.md) and [Playbook](/docs/playbook.md).
 
 ## Testing
 
@@ -26,4 +26,4 @@ See [`e2e/README.md`](/e2e/README.md) and https://github.com/compdemocracy/polis
 
 ## License
 
-[AGPLv3 with additional permission under section 7](LICENSE)
+[AGPLv3 with additional permission under section 7](/LICENSE)
