@@ -1,7 +1,7 @@
 {
-  "name": "polis",
-  "version": "0.0.0",
-  "description": "polis =====",
+  "name": "polis-server",
+  "version": "1.0.0",
+  "license": "AGPL-3.0",
   "main": "./dist/app.js",
   "scripts": {
     "test": "npm run format:check",
@@ -14,12 +14,6 @@
     "format": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --write",
     "format:check": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --check"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pol-is/polisServer.git"
-  },
-  "author": "",
-  "license": "AGPL-3.0",
   "dependencies": {
     "@google-cloud/translate": "^1.0.0",
     "@slack/client": "^3.5.3",
