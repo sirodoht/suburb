@@ -12,9 +12,9 @@ First things first, it helps to understand a bit how the system is set up.
 | [`client-admin`](/client-admin/)                | JavaScript | The client code for administrators. |
 | [`client-report`](/client-report/)              | Node.js    | The code for detailed analytics reports. |
 
-[![architecture diagram of docker setup][arch-image]][arch-edit]
+[![architecture diagram][arch-image]][arch-edit]
 
-[arch-image]: docker-architecture.png
+[arch-image]: /architecture.png
 [arch-edit]: https://www.draw.io/#R7Vpdb5swFP01ecyEDQTy2rRrHjapUzqt3ZsHLngjGDkmkP36mWBCwCRjKHxUWh8qfP19ju%2Fx9W1n%2BmqbPjIU%2BZ%2Bpi4MZ1Nx0pt%2FPIFzqlvidGQ65wVhoucFjxM1NoDRsyG8sjUWzmLh4V2nIKQ04iapGh4YhdnjFhhijSbXZGw2qs0bIw4ph46BAtX4jLvdzq21qpX2NiecXMwNN1vxAzi%2BP0TiU882g%2Fnb8yau3qBhLtt%2F5yKXJmUl%2FmOkrRinPv7bpCgcZtAVseb%2BPF2pP62Y45G06zJcbO%2FkSWwisdTd1Vsnz5nl%2BWhw%2FFIBgV%2BAji5Rxn3o0RMFDab07bhpnw2qiVLb5RGkkjEAYf2LOD5JsFHMqTD7fBrIWp4S%2FZN0%2FmLL0KgfLvu%2FT88KhKIScHc46ZcXXYrysUHY7lop%2BKkwSuR2NmYOvYFOcRsQ8zK%2B0M%2FN2GW5nE0gSHjHdYrEe0YDhAHGyr547JI%2Bvd2pXUig%2BJIv%2FwKgcd4%2BCWM4UeiRMFZqrJCY%2B4XgToSMgiXD0KmEXQdxjxnF6dduydmHIoyZ1AkBbGpLS7UBxHv0zlysE5eZQQQWqNxLg%2BQ4zsa3RAbNgDTDNUAGDxpCAgUUHtXBiAacrcelJOkAn6dB6kw69pXTASUmHrviDExCx9zlytyScnEMsG%2FzBHtQdrP%2Fu0ModjHfpDsYldxAQcOKQSKyBju8WtjY1t7An6hZTCzDNd%2BkWOhyf3o5UdTkWA9Br3Jpf2fWJErHmMgLXzWpACeyaBORbkt1qx%2BS0ju4nx1QEdSKhtvI2AaO%2FTRYKVhHdcY%2Fh3ehomXaLhwkAg1455viaJLUFnCvLSWf%2BduVU4rBS1G5%2B5VgtNWkx1pVz97J%2Feln5ceqC72vt6xKtn%2B6Kh8nk2LX6pLeGfb98m2NGFJaidcfk6dg6Z2htdG7YjJWa3bM1W83hllCBYd4gSq6q4QJtSlXB3pBSk3sTwGlRvzp1ODZOatLH1LQJIgVHR0rNB5hGw2NocKRALawf3%2FfUQF8HUL3Eh0bKqIf5QyLVGNhM4CndIYE46xSfNALQz0vXVog2agzmAdEtXrqXt9WUOmQ4EiRd8YTWoY1y7BsIuHxf19S1x5yhKJZ%2F487xLf%2BPQH%2F4Aw%3D%3D
 
 ## Development environment
@@ -41,8 +41,8 @@ participants, as detected by the browser's language.
 1. Convert the file contents into a base64-encoded string. You can do this in many ways, including:
     - copying its contents into [a client-side base64 encoder web app][base64-encoder] (inspect the simple JS code), or
     - using your workstation terminal: `cat path/to/My-Project-abcdef0123456789.json | base64` (linux/mac)
-1. Configure `GOOGLE_CREDENTIALS_BASE64` within `server/docker-dev.env`
-1. Configure `SHOULD_USE_TRANSLATION_API=true` within `server/docker-dev.env`
+1. Configure `GOOGLE_CREDENTIALS_BASE64` within `server/.env`
+1. Configure `SHOULD_USE_TRANSLATION_API=true` within `server/.env`
 
 [translate-ui]: #translating-the-user-interface
 [translate-strings]: /client-participation/js/strings/en_us.js#L96-L98
@@ -71,13 +71,10 @@ the email will not be sent.
 
 ### Configuring transport: `maildev`
 
-Note: The [MailDev][] email transport is for **development purposes only**. Ensure it's disabled in production!
+Note: The [MailDev](https://github.com/maildev/maildev) email transport is
+for **development purposes only**. Ensure it's disabled in production!
 
 1. Add `maildev` into the `EMAIL_TRANSPORT_TYPES` configuration.
-
-This transport will work automatically when running via Docker Compose, accessible on port 1080.
-
-   [MailDev]: https://github.com/maildev/maildev
 
 ### Configuring transport: `aws-ses`
 
@@ -91,8 +88,7 @@ This transport will work automatically when running via Docker Compose, accessib
 
 ### Adding a new transport
 
-1. [Find a transport for the service you require][transports] (or write your
-   own!)
+1. [Find a transport for the service you require][transports] (or write your own!)
 1. Add any new transport configuration to `getMailOptions(...)` in
    [`server/email/senders.js`][mail-senders].
 1. Submit a pull request.
