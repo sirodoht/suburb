@@ -1,4 +1,4 @@
-# polis: server
+# polis-server
 
 The server part of polis, written in TypeScript, compiles to JavaScript.
 
