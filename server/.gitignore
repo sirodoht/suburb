@@ -1,6 +1,8 @@
 .env
-.env_dev
-.google_creds_temp
+
 npm-debug.log
 node_modules
+
+.google_creds_temp
+
 dist/*
