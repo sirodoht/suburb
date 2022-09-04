@@ -1,6 +1,4 @@
-# polisDeployment
-
-If you're interested in deploying Polis, or setting up a development environment, you've come to the right place.
+# Deployment
 
 ## Overview of system
 
@@ -47,9 +45,6 @@ Each of the repo READMEs should have notes on what environment variables are nee
 And as noted, some scripts require that configuration is in a specific file somewhere, so please refer to individual repo READMEs for full details.
 
 Of particular note, the polisServer runs on environment variables which tell it where to look for the client repositories (host & port), and affording you a lot of flexibility in how you deploy.
-
-TODO Compile complete starter template somewhere in this repo...
-
 
 ## Development environment
 
@@ -101,7 +96,6 @@ We use Google to automatically translate submitted comments into the language of
    [gtranslate-quickstart]: https://cloud.google.com/translate/docs/basic/setup-basic
    [base64-encoder]: https://codepen.io/bsngr/pen/awuDh
 
-
 # About SSL/HTTPS
 
 **Important:** These instructions use an insecure, self-signed SSL certificate,
@@ -118,7 +112,6 @@ before building the `nginx-proxy` docker container:
 vim file-server/nginx/nginx-ssl.site.default.conf
 docker-compose up --detach --build --no-deps nginx-proxy
 ```
-
 
 ## Email Transports
 
@@ -173,7 +166,6 @@ This transport will work automatically when running via Docker Compose, accessib
    [transports]: https://github.com/search?q=nodemailer+transport
    [mail-senders]: /server/email/senders.js
 
-
 ## Database Migrations
 
 When we need to update the Polis database, we use SQL migration files.
@@ -207,7 +199,6 @@ docker-compose exec postgres psql --username postgres --dbname polis-dev --file=
 You'd do this for each new file.
 
    [`server/postgres/migrations/`]: /server/postgres/migrations
-
 
 ## Contribution notes
 
