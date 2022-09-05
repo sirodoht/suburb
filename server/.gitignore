@@ -6,3 +6,5 @@ node_modules
 .google_creds_temp
 
 dist/*
+postgres-data/
+.env
