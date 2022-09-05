@@ -8,6 +8,7 @@ The server part of polis, written in TypeScript, compiles to JavaScript.
 
 * postgresql `>= 9.5.4.1`
 * node `14.14.0`
+* npm `7.0.15`
 
 ### Setup
 
