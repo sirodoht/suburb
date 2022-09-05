@@ -16,7 +16,9 @@ improvements.
 
 ## Fork differences
 
-* No Docker configurations
+* No Docker config
+* No Heroku config
+* No bundlewatch
 
 ## Deployment
 
@@ -26,7 +28,8 @@ See [Deployment](/docs/deployment.md) and [Playbook](/docs/playbook.md).
 
 We use Cypress for automated, end-to-end browser testing.
 
-See [`e2e/README.md`](/e2e/README.md) and https://github.com/compdemocracy/polis/wiki/Running-E2E-tests-locally.
+See [`e2e/README.md`](/e2e/README.md) and
+https://github.com/compdemocracy/polis/wiki/Running-E2E-tests-locally.
 
 ## License
 
