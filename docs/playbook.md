@@ -43,3 +43,17 @@ psql
 \i postgres/migrations/000002_add_xid_constraint.sql
 \q
 ```
+
+## polis/client-admin
+
+```sh
+# user:root
+n 11.15.0
+npm install -g npm@7.0
+# user:polis
+su - polis
+cd polis/client-admin
+npm install
+cp polis.config.template.js polis.config.js
+npm run build
+```
