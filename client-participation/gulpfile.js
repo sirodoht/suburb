@@ -1,8 +1,5 @@
-// Copyright (C) 2012-present, The Authors. This program is free software: you can redistribute it and/or  modify it under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 var _ = require("underscore");
 var Promise = require("bluebird");
-var exec = require("child_process").exec;
 var express = require("express");
 var gulp = require("gulp");
 var s3 = require("gulp-s3");
@@ -11,44 +8,22 @@ var concat = require("gulp-concat");
 var isTrue = require("boolean");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
-var connect = require("gulp-connect");
 var tap = require("gulp-tap");
-var clean = require("gulp-clean");
 var jshint = require("gulp-jshint");
-// var glob = Promise.promisify(require('glob'));
 var glob = require("glob");
 var gzip = require("gulp-gzip");
 var template = require("gulp-template");
-var watch = require("gulp-watch");
 var path = require("path");
-var combineCSS = require("combine-css");
 var gulpif = require("gulp-if");
-var gutil = require("gulp-util");
 var handlebars = require("gulp-handlebars");
-var compileHandlebars = require("gulp-compile-handlebars");
-// var styl = require('gulp-styl');
-// var refresh = require('gulp-livereload');
-// var lr = require('tiny-lr');
-// var server = lr();
-var markdown = require("gulp-markdown");
 var path = require("path");
 var Promise = require("es6-promise").Promise;
-var proxy = require("proxy-middleware");
-var header = require("gulp-header");
-var hbsfy = require("hbsfy").configure({
-  extensions: ["handlebars"],
-});
-var https = require("https");
 var fs = require("fs");
-var mapStream = require("map-stream");
 var request = require("request");
 var rimraf = require("rimraf");
 var runSequence = require("run-sequence");
 var sass = require("gulp-sass");
 var scp = require("gulp-scp2");
-var spawn = require("child_process").spawn;
-var Stream = require("stream");
-var url = require("url");
 
 var polisConfig = require("./polis.config");
 
@@ -82,26 +57,12 @@ config.output.publicPath = basepath_visbundle_dev + "/js/";
 var compiler = webpack(config);
 var webpackStream = require("webpack-stream");
 
-function showDesktopNotification(title, body) {
-  if (process.platform !== "darwin") {
-    return;
-  }
-  var child = spawn(
-      "osascript",
-      ["-e", 'display notification "' + body + '" with title "' + title + '"'],
-      { cwd: process.cwd() }
-    ),
-    stdout = "",
-    stderr = "";
-}
-
 function prepPathForTemplate(path) {
   // add slash at front if missing
   if (path.match(/^[^\/]/)) {
     path = "/" + path;
   }
   path = path.replace(/\/*$/, ""); // remove trailing slash
-  // */                 // <- fix for bad js syntax parsing (comment vs regex) in vim
   return path;
 }
 
@@ -486,7 +447,6 @@ gulp.task("scripts", ["templates", "jshint"], function () {
       browserify({
         insertGlobals: true,
         debug: false, //!gulp.env.production
-        // transform: ['hbsfy'],
         shim: {
           jquery: {
             // Custom build from minimally patched jQuery for IE8 support.
@@ -599,7 +559,6 @@ gulp.task("scripts", ["templates", "jshint"], function () {
       })
     )
     .pipe(concat("polis.js"));
-  // TODO      .pipe(header("copyright Polis... (except that libs are mixed in)
 
   if (prodMode || (preprodMode && minified)) {
     s = s.pipe(uglify());
@@ -613,10 +572,6 @@ gulp.task("scripts", ["templates", "jshint"], function () {
 
 function renameToRemoveGzExtention() {
   return rename(function (path) {
-    // path.dirname += "/ciao";
-    // path.basename += "-goodbye";
-    // path.extname = ".md"
-
     // remove .gz extension
     var ext = path.extname;
     path.extname = ext.substr(0, ext.length - ".gz".length);
@@ -726,9 +681,6 @@ gulp.task(
     "index",
     "embedJs",
   ],
-  function () {
-    showDesktopNotification("BUILD UPDATED", "woohoo");
-  }
 );
 
 gulp.task("dev", ["common"], function () {});
@@ -765,30 +717,10 @@ gulp.task("watchForDev", ["connect"], function () {
   );
 });
 
-function notifySlackOfDeployment(env) {
-  var slackPath = ".polis_slack_creds.json";
-  if (fs.existsSync(slackPath)) {
-    var creds = JSON.parse(fs.readFileSync(slackPath));
-
-    getGitHash().then(function (hash) {
-      var slackToken = creds.apikey;
-      var message = "deploying to " + env + "\n" + hash + "\n" + new Date();
-      var url =
-        "https://slack.com/api/chat.postMessage?token=" +
-        slackToken +
-        "&channel=C02G773HT&text=" +
-        message +
-        "&pretty=1";
-      request(url);
-    });
-  }
-}
 
 gulp.task("prodBuildNoDeploy", ["prodConfig", "dist"]);
 
 gulp.task("deploy_TO_PRODUCTION", ["prodConfig", "dist"], function () {
-  notifySlackOfDeployment("prod");
-
   var uploader;
   if ("s3" === polisConfig.UPLOADER) {
     uploader = s3uploader({
@@ -797,8 +729,6 @@ gulp.task("deploy_TO_PRODUCTION", ["prodConfig", "dist"], function () {
   }
   if ("scp" === polisConfig.UPLOADER) {
     uploader = scpUploader({
-      // TODO needs to upload as prod somehow.
-      // subdir: "cached",
       watch: function (client) {
         client.on("write", function (o) {
           console.log("write %s", o.destination);
@@ -814,8 +744,6 @@ gulp.task("deploy_TO_PRODUCTION", ["prodConfig", "dist"], function () {
 });
 
 function doUpload() {
-  notifySlackOfDeployment("preprod");
-
   var uploader;
   if ("s3" === polisConfig.UPLOADER) {
     uploader = s3uploader({
@@ -824,8 +752,6 @@ function doUpload() {
   }
   if ("scp" === polisConfig.UPLOADER) {
     uploader = scpUploader({
-      // TODO needs to upload as PREprod somehow.
-      // subdir: "cached",
       watch: function (client) {
         client.on("write", function (o) {
           console.log("write %s", o.destination);
@@ -910,11 +836,6 @@ function scpUploader(params) {
     } else {
       console.log("basic path", o.dest);
     }
-    // console.log('------------------------ foofoo', batchConfig);
-    // return foreach(function(stream, file){
-    //   console.log('------------------------ stringSrc', file);
-    //   return mergeStream(stream, stringSrc(file.name + ".headersJson", JSON.stringify(batchConfig.headers)));
-    // }).pipe(scp(scpConfig));
     return scp(o);
   };
   f.needsHeadersJson = true;
@@ -1139,13 +1060,6 @@ function deploy(uploader) {
 
 function doPurgeCache() {
   console.log("Purging cache for " + host + "\n");
-  // var formatter = mapStream(function (data, callback) {
-  //   var o = JSON.parse(data);
-  //   if (!o.result === "success") {
-  //     console.error("---------- PURGE CACHE FAILED ------------- " + data)
-  //   }
-  //   callback(null, data + "\n");
-  // });
   request
     .get(host + "/api/v3/cache/purge/f2938rh2389hr283hr9823rhg2gweiwriu78")
     // .pipe(formatter)
