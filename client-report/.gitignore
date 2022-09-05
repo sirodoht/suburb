@@ -1,8 +1,4 @@
-### OSX ###
-.DS_Store
-
-# App specific
-.env_dev
+.env
 build
 dist
 node_modules
