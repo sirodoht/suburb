@@ -1,5 +1,4 @@
 module.exports = {
-
   domainWhitelist: [
     // local ports
     "^localhost$",

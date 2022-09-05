@@ -7,11 +7,13 @@ Polis Admin Console.
 ### Dependencies
 
 * node `11.15.0`
+* npm `7.0.15`
 
 ### Setup
 
 ```sh
 n 11.15.0
+npm install -g npm@7.0
 npm install
 ```
 
