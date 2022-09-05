@@ -86,4 +86,22 @@ cp polis.config.template.js polis.config.js
 npm install
 npm run build
 ```
+
+## polis/file-server
+
 ```sh
+# user:root
+n 11.15.0
+npm install -g npm@7.0
+# user:polis
+su - polis
+cd polis/file-server
+cp fs_config.template.json fs_config.json
+npm install
+
+# bring all js bundles here
+mkdir build
+cp ../client-admin/dist/admin_bundle.js build/
+cp ../client-report/dist/report_bundle.js build/
+cp -r ../client-participation/dist/* build/
+```
