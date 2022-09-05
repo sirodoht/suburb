@@ -14,6 +14,10 @@ For a detailed methods paper, see
 This is a friendly fork to experiment with latest Node.js version and other
 improvements.
 
+## Fork differences
+
+* No Docker configurations
+
 ## Deployment
 
 See [Deployment](/docs/deployment.md) and [Playbook](/docs/playbook.md).
