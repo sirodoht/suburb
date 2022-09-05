@@ -119,13 +119,11 @@ class App extends React.Component {
         }
         if (user.email) {
           /*eslint-disable */
-          /* jshint ignore:start */
           Intercom("boot", {
             app_id: "nb5hla8s",
             created_at: (user.created / 1000) >> 0,
             user_id: user.uid,
           });
-          /* jshint ignore:end */
           /* eslint-enable */
         }
         this.intercomInitialized = true
