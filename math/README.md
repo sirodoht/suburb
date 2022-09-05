@@ -4,23 +4,9 @@ The statistics part of polis.
 
 ## Development environment
 
-This part of the codebase is implemented in [Clojure](https://clojure.org). As
-with any Lisp, Clojure development typically revolves around the interactive
-REPL. It's recommended that you use an editor plugin to connect to this REPL,
-letting you execute and experiment with code as you write it, display
-documentation, and debug all from the comfort of your favorite text editor.
-(See [Calva](https://marketplace.visualstudio.com/items?itemName=betterthantomorrow.calva)
-for VS, [Fireplace](https://github.com/tpope/vim-fireplace) for Vim,
-[Cider](https://docs.cider.mx/cider/index.html) for Emacs,
-[Cursive](https://cursive-ide.com/) for IDEA, etc).
-
 To get a sense for how various parts of these system can be used, take a look
 at the comment block at the
 [bottom of `dev/user.clj`](https://github.com/compdemocracy/polis/blob/dev/math/dev/user.clj#L328).
-
-If you're not familiar with Clojure and want a fun crash course, I highly
-recommend [Clojure for the Brave and True](https://www.braveclojure.com/), a
-delightful introduction to the language.
 
 Run `clj -M:dev` to get nREPL going. This will not start math worker's
 processing queue.
@@ -121,4 +107,5 @@ update increases. We need to have a way of queueing up vote and moderation
 data updates, so that they're ready to be processed once the last conversation
 update has completed.
 
-You can see the conversation manager implementation at `src/polismath/conv_man.clj`.
+You can see the conversation manager implementation at
+`src/polismath/conv_man.clj`.
