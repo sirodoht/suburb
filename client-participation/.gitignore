@@ -1,7 +1,5 @@
 node_modules
-bower_components
 public
-.DS_Store
 *.log
 js/tmpl/
 build
@@ -16,5 +14,3 @@ polis.config.js
 .bashrc
 .env_always
 polisStatic/
-scratch
-polis.config
