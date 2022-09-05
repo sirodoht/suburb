@@ -6,8 +6,6 @@
 # user:root
 apt update
 useradd -m -s /bin/bash polis
-
-TODO:
 passwd polis
 
 apt install -y postgresql g++ git make python python-dev libpq-dev
@@ -32,6 +30,8 @@ npm install -g n
 ```sh
 # user:root
 su - polis
+n 11.15.0
+
 # user:polis
 cd server
 git clone https://github.com/sirodoht/polis.git
@@ -42,6 +42,9 @@ psql
 \i postgres/migrations/000001_update_pwreset_table.sql
 \i postgres/migrations/000002_add_xid_constraint.sql
 \q
+
+npm run build
+npm run serve
 ```
 
 ## polis/client-admin
@@ -50,6 +53,7 @@ psql
 # user:root
 n 11.15.0
 npm install -g npm@7.0
+
 # user:polis
 su - polis
 cd polis/client-admin
@@ -64,6 +68,7 @@ npm run build
 # user:root
 n 11.15.0
 npm install -g npm@7.0
+
 # user:polis
 su - polis
 cd polis/client-admin
@@ -79,6 +84,7 @@ npm run build:prod
 # user:root
 n 11.15.0
 npm install -g npm@7.0
+
 # user:polis
 su - polis
 cd polis/client-report
@@ -93,6 +99,7 @@ npm run build
 # user:root
 n 11.15.0
 npm install -g npm@7.0
+
 # user:polis
 su - polis
 cd polis/file-server
@@ -104,4 +111,18 @@ mkdir build
 cp ../client-admin/dist/admin_bundle.js build/
 cp ../client-report/dist/report_bundle.js build/
 cp -r ../client-participation/dist/* build/
+```
+
+## polis/math
+
+```sh
+# user:root
+apt install -y openjdk-17-jre rlwrap
+curl -O https://download.clojure.org/install/linux-install-1.11.1.1155.sh
+chmod +x linux-install-1.11.1.1155.sh
+./linux-install-1.11.1.1155.sh
+rm linux-install-1.11.1.1155.sh
+
+clojure -A:dev -P
+clojure -M:run full
 ```
