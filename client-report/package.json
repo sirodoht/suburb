@@ -52,7 +52,6 @@
     "whatwg-fetch": "^0.10.1"
   },
   "devDependencies": {
-    "knox": "https://github.com/caremerge/knox#b1e031c209b3c17cab622a458e87728c1ee88cbd",
     "babel-core": "^5.8.25",
     "babel-eslint": "^4.1.3",
     "babel-loader": "^5.3.2",
@@ -70,6 +69,7 @@
     "gulp-s3": "https://github.com/pol-is/gulp-s3#master",
     "gulp-scp2": "^0.2.0",
     "json-loader": "^0.5.1",
+    "knox": "https://github.com/caremerge/knox#b1e031c209b3c17cab622a458e87728c1ee88cbd",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "1.1.1",
