@@ -1,8 +1,6 @@
 {
-  "name": "dashboard-require",
-  "appName": "DashboardRequire",
-  "version": "0.0.0",
-  "license": "AGPL-3.0",
+  "name": "polis-client-participation",
+  "version": "1.0.0",
   "scripts": {
     "start": "gulp",
     "build:prod": "gulp prodBuildNoDeploy",
@@ -10,6 +8,13 @@
     "deploy:prod": "gulp deploy_TO_PRODUCTION",
     "deploy:preprod:unminified": "gulp deployPreprodUnminified"
   },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "ie >= 10"
+  ],
   "dependencies": {
     "autosize": "^3.0.3",
     "backbone": "github:pol-is/backbone#polis",
@@ -83,12 +88,5 @@
     "webpack": "^5.0.0",
     "webpack-cli": "^4.3.1",
     "webpack-dev-middleware": "^4.1.0"
-  },
-  "browserslist": [
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
-    "ie >= 10"
-  ]
+  }
 }
