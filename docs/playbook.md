@@ -57,3 +57,18 @@ npm install
 cp polis.config.template.js polis.config.js
 npm run build
 ```
+
+## polis/client-participation
+
+```sh
+# user:root
+n 11.15.0
+npm install -g npm@7.0
+# user:polis
+su - polis
+cd polis/client-admin
+npm install
+node node_modules/node-sass/scripts/install.js
+npm rebuild node-sass
+npm run build:prod
+```
