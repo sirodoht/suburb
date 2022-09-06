@@ -93,6 +93,7 @@ su - polis
 cd polis/client-report
 cp polis.config.template.js polis.config.js
 npm install
+npm install # yes, twice
 npm run build
 ```
 
