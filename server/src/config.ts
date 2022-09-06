@@ -10,7 +10,7 @@ function getServerNameWithProtocol(req: any) {
     server = req.protocol + "://" + domainOverride;
   }
   if (devMode) {
-    // usually localhost:5000
+    // usually localhost:8000
     server = req.protocol + "://" + req.headers.host;
   }
 
