@@ -1,5 +1,8 @@
 name: DepCheck
+
 on:
+  push:
+    branches: ["master"]
   pull_request:
     types: ["opened", "reopened", "synchronize"]
     paths:

@@ -1,13 +1,10 @@
-# Changes to workflow name require changes to badge URL in README.md
 name: E2E Tests
 
 on:
   push:
-    branches:
-      - dev
+    branches: ["master"]
     paths-ignore:
       - "**.md"
-
   pull_request:
     paths-ignore:
       - "**.md"
