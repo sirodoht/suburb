@@ -36,6 +36,11 @@ n 11.15.0
 cd server
 git clone https://github.com/sirodoht/polis.git
 cd polis/server/
+
+cp .envrc.example .envrc
+make pginit
+make pgstart
+
 createdb polis
 psql
 \i postgres/migrations/000000_initial.sql
@@ -57,6 +62,7 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/client-admin
+cp .envrc.example .envrc
 npm install
 cp polis.config.template.js polis.config.js
 npm run build
@@ -73,6 +79,7 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/client-admin
+cp .envrc.example .envrc
 npm install
 node node_modules/node-sass/scripts/install.js
 npm rebuild node-sass
@@ -93,6 +100,7 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/client-report
+cp .envrc.example .envrc
 cp polis.config.template.js polis.config.js
 npm install
 npm install # yes, twice
@@ -110,6 +118,7 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/file-server
+cp .envrc.example .envrc
 cp fs_config.template.json fs_config.json
 npm install
 
@@ -136,6 +145,17 @@ clojure -M:run full
 clojure -X:dev-poller
 ```
 
+## polis/nginx
+
+Optional, you can visit the Node.js server directly as well.
+
+```sh
+# user:polis
+cd polis/nginx
+cp .envrc.example .envrc
+make start
+```
+
 ## After reboot
 
 ```sh
@@ -153,7 +173,7 @@ npm run dev
 # visit at http://localhost:8000/
 
 # optional
-cd ../file-server/
-make nginxstart
+cd ../nginx/
+make start
 # visit at http://localhost/
 ```
