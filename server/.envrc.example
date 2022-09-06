@@ -1,3 +1,5 @@
+use nix
+
 export STATIC_FILES_HOST=localhost
 export STATIC_FILES_PORT=5001
 export STATIC_FILES_ADMINDASH_PORT=5002
