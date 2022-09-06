@@ -133,10 +133,6 @@ function renderLtiLinkageSuccessPage(
     "<p>You are signed in as polis user " +
     o.email +
     "</p>" +
-    // "<p><a href='https://pol.is/user/logout'>Change pol.is users</a></p>" +
-    // "<p><a href='https://preprod.pol.is/inbox/context="+ o.context_id +"'>inbox</a></p>" +
-    // "<p><a href='https://preprod.pol.is/2demo' target='_blank'>2demo</a></p>" +
-    // "<p><a href='https://preprod.pol.is/conversation/create/context="+ o.context_id +"'>create</a></p>" +
 
     // form for sign out
     '<p><form role="form" class="FormVertical" action="' +
@@ -145,10 +141,6 @@ function renderLtiLinkageSuccessPage(
     '<input type="hidden" name="showPage" value="canvas_assignment_deregister">' +
     '<button type="submit" class="Btn Btn-primary">Change pol.is users</button>' +
     "</form></p>" +
-    // "<p style='background-color: yellow;'>" +
-    //     JSON.stringify(req.body)+
-    //     (o.user_image ? "<img src='"+o.user_image+"'></img>" : "") +
-    // "</p>"+
     "</body></html>";
   res.status(200).send(html);
 }
