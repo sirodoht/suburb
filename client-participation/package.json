@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "gulp",
-    "build:prod": "gulp prodBuildNoDeploy",
+    "build": "gulp prodBuildNoDeploy",
     "deploy:preprod": "gulp deployPreprod",
     "deploy:prod": "gulp deploy_TO_PRODUCTION",
     "deploy:preprod:unminified": "gulp deployPreprodUnminified"
