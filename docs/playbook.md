@@ -44,7 +44,7 @@ psql
 \q
 
 npm run build
-npm run serve
+npm start
 ```
 
 ## polis/client-admin
@@ -60,6 +60,7 @@ cd polis/client-admin
 npm install
 cp polis.config.template.js polis.config.js
 npm run build
+npm run deploy:prod
 ```
 
 ## polis/client-participation
@@ -79,6 +80,7 @@ npm install
 
 cp polis.config.template.js polis.config.js
 npm run build
+npm run deploy:prod
 ```
 
 ## polis/client-report
@@ -95,6 +97,7 @@ cp polis.config.template.js polis.config.js
 npm install
 npm install # yes, twice
 npm run build
+npm run deploy:prod
 ```
 
 ## polis/file-server
@@ -129,4 +132,28 @@ rm linux-install-1.11.1.1155.sh
 
 clojure -A:dev -P
 clojure -M:run full
+
+clojure -X:dev-poller
+```
+
+## After reboot
+
+```sh
+cd polis/
+
+cd file-server/
+npm start
+
+cd ../math/
+clojure -X:dev-poller
+
+cd ../server/
+make pgstart
+npm run dev
+# visit at http://localhost:8000/
+
+# optional
+cd ../file-server/
+make nginxstart
+# visit at http://localhost/
 ```
