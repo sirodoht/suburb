@@ -1,8 +1,8 @@
 # Polis
 
-Polis is an AI powered sentiment gathering platform. More organic than surveys
-and less effort than focus groups, Polis meets the basic human need to be
-understood, at scale.
+[Polis](https://pol.is/) is an AI powered sentiment gathering platform. More
+organic than surveys and less effort than focus groups, Polis meets the basic
+human need to be understood, at scale.
 
 For a detailed methods paper, see
 [Polis: Scaling Deliberation by Mapping High Dimensional Opinion Spaces][methods-paper].
@@ -19,6 +19,7 @@ improvements.
 * No Docker config
 * No Heroku config
 * No bundlewatch
+* Yes Nix config
 
 ## Deployment
 
