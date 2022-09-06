@@ -75,7 +75,10 @@ cd polis/client-admin
 npm install
 node node_modules/node-sass/scripts/install.js
 npm rebuild node-sass
-npm run build:prod
+npm install
+
+cp polis.config.template.js polis.config.js
+npm run build
 ```
 
 ## polis/client-report
