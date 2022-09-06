@@ -1,10 +1,6 @@
-build
-dist
-coverage
-node_modules
-.tmp
-lib
-npm-debug.log
 .polis_s3_creds_client.json
-.env
-polis.config.js
+.tmp
+build
+coverage
+dist
+lib
