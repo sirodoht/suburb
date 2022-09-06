@@ -3,15 +3,13 @@
   "version": "1.0.0",
   "main": "./dist/app.js",
   "scripts": {
-    "test": "npm run format:check",
+    "start": "node --max_old_space_size=400 --gc_interval=100 --harmony dist/app.js",
     "build": "./node_modules/typescript/bin/tsc --project tsconfig.json",
-    "build:watch": "./node_modules/typescript/bin/tsc --watch & ./node_modules/nodemon/bin/nodemon.js --inspect=0.0.0.0:9229 -q dist/app.js",
-    "serve": "node --max_old_space_size=400 --gc_interval=100 --harmony dist/app.js",
-    "start": "npm install && npm run build && npm run serve",
-    "dev": "npm install && npm run build:watch",
+    "dev": "./node_modules/typescript/bin/tsc --watch & ./node_modules/nodemon/bin/nodemon.js --inspect=0.0.0.0:9229 -q dist/app.js",
     "type:check:watch": "tsc --watch",
     "format": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --write",
-    "format:check": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --check"
+    "format:check": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --check",
+    "test": "npm run format:check"
   },
   "dependencies": {
     "@google-cloud/translate": "^1.0.0",
