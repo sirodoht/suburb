@@ -15,10 +15,10 @@ db/
 .lein-env
 .nrepl-port
 scratch
-src/polismath/play.clj
 old
 .gorilla-port
 .lein-git-deps/hiphip
 wiki
 .lein-git-deps/debug-repl
 data
+.cpcache/
