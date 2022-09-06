@@ -456,7 +456,6 @@ gulp.task("scripts", ["templates", "jshint"], function () {
               : "js/3rdparty/jquery.min.js",
             exports: "$",
           },
-          //TODO 'handlebars': 'templates/helpers/handlebarsWithHelpers', //this one has polis custom template helpers
           handlebars: {
             path: "node_modules/handlebars-v1/dist/handlebars.runtime.js", //original handlebars
             exports: "Handlebars",
