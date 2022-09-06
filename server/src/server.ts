@@ -4528,7 +4528,7 @@ Email verified! You can close this tab or hit the back button.
     // @ts-ignore
     params[HMAC_SIGNATURE_PARAM_NAME] = createHmacForQueryParams(path, params);
 
-    let server = "http://localhost:5000";
+    let server = "http://localhost:8000";
     if (!devMode) {
       server = "https://" + process.env.PRIMARY_POLIS_URL;
     }
@@ -4546,7 +4546,7 @@ Email verified! You can close this tab or hit the back button.
     // @ts-ignore
     params[HMAC_SIGNATURE_PARAM_NAME] = createHmacForQueryParams(path, params);
 
-    let server = "http://localhost:5000";
+    let server = "http://localhost:8000";
     if (!devMode) {
       server = "https://" + process.env.PRIMARY_POLIS_URL;
     }
