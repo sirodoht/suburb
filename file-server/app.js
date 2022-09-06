@@ -14,8 +14,6 @@ const serve = serveStatic(config.fileRoot, {
 
 // Set header to force download
 function setHeaders (res, filePath) {
-  //res.setHeader('Content-Disposition', contentDisposition(path));
-  //
   const configFile = fs.readFileSync(filePath + ".headersJson");
   const headers = JSON.parse(configFile);
   const headerNames = Object.keys(headers);
@@ -35,9 +33,9 @@ const fileServer = http.createServer(function onRequest (req, res) {
 // Listen
 fileServer.listen(config.port, function (err) {
   if (!err) {
-    console.log('polisFileServer listening on port ' + config.port);
+    console.log('polis-file-server listening on port ' + config.port);
   } else {
-    console.error('Error starting polisFileServer.');
+    console.error('Error starting polis-file-server.');
     console.error(err);
   }
 });

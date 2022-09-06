@@ -4,7 +4,6 @@ import pg from "../db/pg-query";
 import { fail } from "../log";
 import Config from "../config";
 import Cookies from "../utils/cookies";
-import { COOKIES } from "../utils/cookies";
 import User from "../user";
 import Session from "../session";
 import Utils from "../utils/common";
