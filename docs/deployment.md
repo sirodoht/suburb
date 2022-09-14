@@ -6,7 +6,7 @@ First things first, it helps to understand a bit how the system is set up.
 
 | Component Name                                  | Tech       | Description |
 |-------------------------------------------------|------------|-------------|
-| [`server`](/server)]                            | Node.js    | The main server. Handles client web requests (page loads, vote activity, etc.) |
+| [`server`](/server)                             | Node.js    | The main server. Handles client web requests (page loads, vote activity, etc.) |
 | [`math`](/math)                                 | Clojure    | The math engine.  |
 | [`client-participation`](/client-participation) | JavaScript | The client code for end-users. |
 | [`client-admin`](/client-admin/)                | JavaScript | The client code for administrators. |
