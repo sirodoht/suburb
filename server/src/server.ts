@@ -1667,7 +1667,8 @@ function initializePolisHelpers() {
       if (pcaResultsExistForZid[zid]) {
         res.status(304).end();
       } else {
-        res.status(404).end();
+        res.status(304).end();
+        // res.status(404).end();
       }
     }
 
