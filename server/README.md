@@ -6,8 +6,8 @@ The server part of polis, written in TypeScript, compiles to JavaScript.
 
 ### Dependencies
 
-* postgresql `>= 9.5.4.1`
-* node `14.14.0`
+* postgresql `13.0`
+* node `11.15.0`
 * npm `7.0.15`
 
 ### Setup
@@ -54,7 +54,7 @@ http -> https rerouting and other issues, you'll want to run with
 1. Install apropriate node version.
 
 ```sh
-n 14.14.0
+n 11.15.0
 ```
 
 1. Install depedencies and build assets.
