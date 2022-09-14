@@ -124,8 +124,8 @@ npm install
 
 # bring all js bundles here
 mkdir build
-cp ../client-admin/dist/admin_bundle.js build/
-cp ../client-report/dist/report_bundle.js build/
+cp -r ../client-admin/dist/* build/
+cp -r ../client-report/dist/* build/
 cp -r ../client-participation/dist/* build/
 ```
 
