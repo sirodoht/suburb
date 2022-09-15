@@ -20,10 +20,10 @@ improvements.
 * No Heroku config
 * No bundlewatch
 * Yes Nix config
+* No nginx config
+* No SSL config
 * Yes Caddy config
-* Code changes
-    * Moved nginx-related files into separate directory
-    * One Node.js (and npm) version for all components, front + back
+* Single Node.js (and npm) version for all components, front + back
 
 ## Deployment
 
