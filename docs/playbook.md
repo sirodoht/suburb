@@ -8,7 +8,7 @@ apt update
 useradd -m -s /bin/bash polis
 passwd polis
 
-apt install -y postgresql g++ git make python python-dev libpq-dev
+apt install -y postgresql g++ git make python python-dev libpq-dev direnv
 sudo -i -u postgres
 # user:postgres
 createuser polis
@@ -79,7 +79,6 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/client-admin
-cp .envrc.example .envrc
 npm install
 node node_modules/node-sass/scripts/install.js
 npm rebuild node-sass
@@ -118,7 +117,6 @@ npm install -g npm@7.0
 # user:polis
 su - polis
 cd polis/file-server
-cp .envrc.example .envrc
 cp fs_config.template.json fs_config.json
 npm install
 
