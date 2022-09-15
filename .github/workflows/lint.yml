@@ -4,7 +4,7 @@ on:
   push:
     branches: ["master"]
   pull_request:
-    types: ["opened", "reopened", "synchronize"]
+    branches: ["master"]
 
 jobs:
   eslint:
@@ -15,7 +15,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v2.1.5
       with:
-        node-version: 14.4.0
+        node-version: 11.15.0
 
     - name: Get npm cache directory
       id: npm-cache
