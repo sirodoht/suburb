@@ -65,7 +65,7 @@
     "glob": "^7.1.2",
     "gulp": "^3.9.0",
     "gulp-cli": "^1.4.0",
-    "gulp-s3": "github:pol-is/gulp-s3#master",
+    "gulp-s3": "https://github.com/sirodoht/compdemocracy-gulp-s3",
     "gulp-scp2": "^0.2.0",
     "lodash-webpack-plugin": "^0.11.6",
     "prettier": "^2.2.1",
