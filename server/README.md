@@ -2,15 +2,13 @@
 
 The server part of polis, written in TypeScript, compiles to JavaScript.
 
-## Installation
-
-### Dependencies
+## Dependencies
 
 * postgresql `13.0`
 * node `11.15.0`
 * npm `7.0.15`
 
-### Setup
+## Setup
 
 1. Create new database.
 

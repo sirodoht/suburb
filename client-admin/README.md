@@ -2,14 +2,12 @@
 
 Polis Admin Console.
 
-## Installation
-
-### Dependencies
+## Dependencies
 
 * node `11.15.0`
 * npm `7.0.15`
 
-### Setup
+## Setup
 
 ```sh
 n 11.15.0
@@ -17,7 +15,7 @@ npm install -g npm@7.0
 npm install
 ```
 
-### Common Problems
+## Common Problems
 
 If you having troubles with npm dependencies try run the commands below:
 
@@ -42,7 +40,7 @@ in a JSON file at `.polis_s3_creds_client.json` that looks like this:
 {"key": "XXXXXXX", "secret": "YYYYYYY"}
 ```
 
-# QA Steps
+## QA Steps
 
 ### Static, outide
 

@@ -2,14 +2,12 @@
 
 The part of polis that conversation participants see.
 
-## Installation
-
-### Dependencies
+## Dependencies
 
 * node `11.15.0`
 * npm `7.0.15`
 
-### Setup
+## Setup
 
 ```sh
 n 11.15.0

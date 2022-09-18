@@ -2,14 +2,12 @@
 
 This is the report conversation results part of polis.
 
-## Installation
-
-### Dependencies
+## Dependencies
 
 * node `11.15.0`
 * npm `7.0.15`
 
-### Setup
+## Setup
 
 ```sh
 n 11.15.0
