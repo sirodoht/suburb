@@ -143,15 +143,13 @@ clojure -M:run full
 clojure -X:dev-poller
 ```
 
-## polis/nginx
-
-Optional, you can visit the Node.js server directly as well.
+## polis/caddy
 
 ```sh
 # user:polis
-cd polis/nginx
+cd polis/caddy
 cp .envrc.example .envrc
-make start
+make devserver
 ```
 
 ## After reboot
@@ -168,10 +166,10 @@ clojure -X:dev-poller
 cd ../server/
 make pgstart
 npm run dev
-# visit at http://localhost:8000/
+# live at http://localhost:8000/
 
-# optional
-cd ../nginx/
-make start
+# dev only
+cd ../caddy/
+make devserver
 # visit at http://localhost/
 ```
