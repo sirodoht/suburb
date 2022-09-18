@@ -1,0 +1,83 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: ["master"]
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    branches: ["master"]
+    paths-ignore:
+      - "**.md"
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress info
+        uses: ./
+        with:
+          build: npx cypress info
+          working-directory: ./e2e
+
+      - name: Set server configuration
+        run: |
+          # Test email transport failovers
+          # mailgun: unconfigured transport (will fail)
+          # aws-ses: unconfigured transport (will fail)
+          # nonexistent: nonexistent transport (will fail)
+          # maildev: catch-all dev email server running in container (will work)
+          echo EMAIL_TRANSPORT_TYPES=mailgun,aws-ses,nonexistent,maildev >> server/docker-dev.env
+
+      - name: Serve app
+        run: |
+          # postgres/server - setup postgres, migrate, start postgres
+          # server - specific node.js version, npm i, npm run build, npm start
+          # client-admin - npm i, polis.config.js, run build, run deploy:prod
+          # client-participation - npm i, polis.config.js, run build, run deploy:prod
+          # client-report - npm i, polis.config.js, run build, run deploy:prod
+          # file-server - cp fs_config.json, npm i, make, start
+          # caddy - make devserver
+          cd .server && make pgstart
+
+      - name: "Run Cypress tests: default"
+        uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_BASE_URL: https://localhost
+        with:
+          working-directory: ./e2e
+          # Ignore all tests with pattern *.secrets.spec.js
+          spec: "**/polis/**/!(*.secrets).spec.js"
+          browser: chrome
+
+      - name: "Run Cypress tests: comment translation"
+        if: env.DO_COMMENT_TRANSLATION
+        uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_BASE_URL: https://localhost
+        with:
+          install: false
+          working-directory: ./e2e
+          spec: "**/comment-translation.secrets.spec.js"
+          # Prevent cypress from discarding screenshots/videos from default test run.
+          config: "trashAssetsBeforeRuns=false"
+          browser: chrome
+
+      # Screenshots are generated only if E2E test fails
+      - name: Save screenshot artefacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: ./e2e/cypress/screenshots
+
+      # Test run video is always captured
+      - name: Save video artefacts
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: ./e2e/cypress/videos
