@@ -4,7 +4,7 @@ End-To-End Tests written with cypress.io
 
 ## Dependencies
 
-* node `12.18.3`
+* node `16.17.0`
 
 ## Setup
 
