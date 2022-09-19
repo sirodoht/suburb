@@ -275,7 +275,6 @@ gulp.task("index", [], function () {
   } else {
     s = s.pipe(
       template({
-        //basepath: 'https://s3.amazonaws.com/pol.is',
         basepath: basepath, // proxy through server (cached by cloudflare, and easier than choosing a bucket for preprod, etc)
         basepath_visbundle: basepath,
         d3Filename: "d3.min.js",
@@ -333,9 +332,6 @@ gulp.task("templates", function () {
       tap(function (file) {
         if (needsHeaderAndFooter(file) || needsBanner(file)) {
           file._contents = Buffer.concat([
-            // new Buffer.from(
-            //   needsHeaderAndFooter(file) ? '<div class="wrap">' : ''
-            // ),
             new Buffer.from(
               (needsHeaderAndFooter(file)
                 ? "{{#ifNotEmbedded}}{{> header}}{{/ifNotEmbedded}}"
@@ -345,12 +341,6 @@ gulp.task("templates", function () {
                   : "")
             ),
             file._contents,
-            // new Buffer.from(
-            // needsHeaderAndFooter(file) ? '</div>' : ''
-            // ),
-            // new Buffer.from(
-            // needsHeaderAndFooter(file) ? '{{> footer}}' : ''
-            // ),
           ]);
         }
       })
@@ -373,32 +363,17 @@ gulp.task("jshint", function () {
       gulpif(
         useJsHint,
         jshint({
-          // reporter: 'jslint',
           curly: true, // require if,else blocks to have {}
           eqeqeq: true,
           trailing: true, // no trailing whitespace allowed
           forin: true, // requires all for in loops to filter object's items
           freeze: true, // prohibits overwriting prototypes of native objects such as Array, Date and so on.
-          // immed: true,
-          // latedef: true,
-          // newcap: true,
-          // noarg: true,
-          // sub: true,
-          // undef: true,
           unused: "vars",
-          // quotmark: "double",
-          // plusplus: true, // no ++ or --
-          //  nonew: true,
           noarg: true, // no arguments.caller and arguments.callee (allow for optimizations)
           newcap: true, // constructors must be capitalized
-          //  latedef: "nofunc",
           indent: 2,
           immed: true,
-          //          forin: true, require hasOwnProperty checks
           boss: true,
-          //          debug: true, // uncomment temporarily when you want to allow debugger; statements.
-          // browser: true,
-          // es3: true,
           globals: {
             d3: true,
             jQuery: true,
@@ -409,12 +384,7 @@ gulp.task("jshint", function () {
             describe: true,
             expect: true,
             module: true,
-            // it: true
           },
-          // relax: eventually we should get rid of these
-          //expr: true,
-          // loopfunc: true,
-          //shadow: true,
         })
       )
     )
@@ -689,15 +659,12 @@ gulp.task("dist", ["configureForProduction"], function (callback) {
     "cleanDist",
     "scriptsVis2",
     "common",
-    // ['build-scripts', 'build-styles'], // these two would be parallel
-    // 'build-html',
     callback
   );
 });
 
 gulp.task("watchForDev", ["connect"], function () {
   // don't block watch builds on lint
-  // TODO: there's probably a way to run lint after each time the build finishes.
   useJsHint = false;
 
   gulp.watch(
@@ -1047,7 +1014,6 @@ function deploy(uploader) {
         "x-amz-acl": "public-read",
         "Content-Type": "text/html",
         "Cache-Control": "no-cache",
-        // 'Cache-Control': 'no-transform,public,max-age=0,s-maxage=300', // NOTE: s-maxage is small for now, we could bump this up later once confident in cloudflare's cache purge workflow
       },
       logStatement: makeUploadPathHtml,
       subdir: null,
@@ -1061,7 +1027,6 @@ function doPurgeCache() {
   console.log("Purging cache for " + host + "\n");
   request
     .get(host + "/api/v3/cache/purge/f2938rh2389hr283hr9823rhg2gweiwriu78")
-    // .pipe(formatter)
     .pipe(process.stdout);
 }
 
