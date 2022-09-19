@@ -18,8 +18,6 @@ export MATH_ENV=dev
 # Set the domain name; make sure this matches what's running on math node
 export DOMAIN_OVERRIDE=localhost:8000
 
-# export STRIPE_CLIENT_ID=""
-# export STRIPE_SECRET_KEY=sk_test_NFBDEThkpHCYBzXPJuBlY8TW
 # export DISABLE_INTERCOM=true
 
 # export ADMIN_EMAILS=[]

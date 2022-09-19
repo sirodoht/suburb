@@ -97,7 +97,6 @@ export type ParticipantCommentModerationResult = {
 export type UserType = {
   email?: any;
   hname?: any;
-  stripeCustomerId?: any;
   uid?: any;
   pid?: any;
   id?: any;

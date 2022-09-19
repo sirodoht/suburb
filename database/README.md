@@ -28,4 +28,5 @@ psql
 \i migrations/000000_initial.sql
 \i migrations/000001_update_pwreset_table.sql
 \i migrations/000002_add_xid_constraint.sql
+\i migrations/000003_remove_stripe_tables.sql
 ```

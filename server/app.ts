@@ -109,8 +109,6 @@ helpersInitialized.then(
       handle_GET_setup_assignment_xml,
       handle_GET_slack_login,
       handle_GET_snapshot,
-      handle_GET_stripe_account_connect,
-      handle_GET_stripe_account_connected_oauth_callback,
       hangle_GET_testConnection,
       hangle_GET_testDatabase,
       handle_GET_tryCookie,
@@ -133,7 +131,6 @@ helpersInitialized.then(
       handle_POST_auth_password,
       handle_POST_auth_pwresettoken,
       handle_POST_auth_slack_redirect_uri,
-      handle_POST_charge,
       handle_POST_comments,
       handle_POST_comments_slack,
       handle_POST_contexts,
@@ -163,9 +160,6 @@ helpersInitialized.then(
       handle_POST_slack_interactive_messages,
       handle_POST_slack_user_invites,
       handle_POST_stars,
-      handle_POST_stripe_cancel,
-      handle_POST_stripe_save_token,
-      handle_POST_stripe_upgrade,
       handle_POST_trashes,
       handle_POST_tutorial,
       handle_POST_upvotes,
@@ -687,50 +681,6 @@ helpersInitialized.then(
       handle_GET_users
     );
 
-    // use this to generate coupons for free upgrades
-    // TODO_SECURITY
-    app.get(
-      "/api/v3/createPlanChangeCoupon_aiudhfaiodufy78sadtfiasdf",
-      moveToBody,
-      need("uid", getInt, assignToP),
-      need("planCode", getOptionalStringLimitLength(999), assignToP),
-      handle_GET_createPlanChangeCoupon
-    );
-
-    app.get(
-      "/api/v3/changePlanWithCoupon",
-      moveToBody,
-      authOptional(assignToP),
-      need("code", getOptionalStringLimitLength(999), assignToP),
-      handle_GET_changePlanWithCoupon
-    );
-
-    // Just for testing that the new custom stripe form is submitting properly
-    app.post("/api/v3/stripe_save_token", handle_POST_stripe_save_token);
-
-    app.post(
-      "/api/v3/stripe_upgrade",
-      auth(assignToP),
-      need("stripeResponse", getStringLimitLength(9999), assignToP),
-      need("plan", getStringLimitLength(99), assignToP),
-      handle_POST_stripe_upgrade
-    );
-
-    app.post(
-      "/api/v3/stripe_cancel",
-      auth(assignToP),
-      handle_POST_stripe_cancel
-    );
-
-    app.post(
-      "/api/v3/charge",
-      auth(assignToP),
-      want("stripeToken", getOptionalStringLimitLength(999), assignToP),
-      want("stripeEmail", getOptionalStringLimitLength(999), assignToP),
-      need("plan", getOptionalStringLimitLength(999), assignToP),
-      handle_POST_charge
-    );
-
     app.get(
       "/api/v3/participation",
       moveToBody,
@@ -1248,32 +1198,6 @@ helpersInitialized.then(
       want("suzinvite", getOptionalStringLimitLength(32), assignToP),
       // TODO want('lastMetaTime', getInt, assignToP, 0),
       handle_GET_metadata
-    );
-
-    app.get(
-      "/api/v3/enterprise_deal_url",
-      moveToBody,
-      // want('upfront', getBool, assignToP),
-      need("monthly", getInt, assignToP),
-      want("maxUsers", getInt, assignToP),
-      want("plan_name", getOptionalStringLimitLength(99), assignToP),
-      want("plan_id", getOptionalStringLimitLength(99), assignToP),
-      handle_GET_enterprise_deal_url
-    );
-
-    app.get(
-      "/api/v3/stripe_account_connect",
-      handle_GET_stripe_account_connect
-    );
-
-    app.get(
-      "/api/v3/stripe_account_connected_oauth_callback",
-      moveToBody,
-      want("code", getStringLimitLength(9999), assignToP),
-      want("access_token", getStringLimitLength(9999), assignToP),
-      want("error", getStringLimitLength(9999), assignToP),
-      want("error_description", getStringLimitLength(9999), assignToP),
-      handle_GET_stripe_account_connected_oauth_callback
     );
 
     app.get(

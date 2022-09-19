@@ -296,7 +296,6 @@ gulp.task("templates", function () {
     /create-user-form.handlebars$/,
     /login-form.handlebars$/,
     /settings.handlebars$/,
-    /settingsEnterprise.handlebars$/,
     /summary.handlebars$/,
     /inbox.handlebars$/,
     /moderation.handlebars$/,
@@ -305,7 +304,6 @@ gulp.task("templates", function () {
     /conversationGatekeeper.handlebars$/,
     /passwordResetInitForm.handlebars$/,
     /create-conversation-form.handlebars$/,
-    /plan-upgrade.handlebars$/,
   ];
   var bannerNeedingViews = [
     /summary.handlebars$/,
