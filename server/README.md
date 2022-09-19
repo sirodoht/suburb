@@ -28,13 +28,13 @@ npm install
 npm run build
 ```
 
-4. Start development auto-reload server:
+4a. Start development auto-reload server:
 
 ```sh
 npm run dev
 ```
 
-5. Start production server:
+4b. Start production server:
 
 ```sh
 npm start

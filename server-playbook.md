@@ -9,6 +9,16 @@ useradd -m -s /bin/bash polis
 passwd polis
 
 apt install -y postgresql g++ git make python python-dev libpq-dev direnv
+
+# node.js
+curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
+bash n lts
+npm install -g n
+```
+
+## polis/database
+
+```sh
 sudo -i -u postgres
 # user:postgres
 createuser polis
@@ -19,10 +29,11 @@ postgres=# ALTER USER polis CREATEDB;
 ```
 
 ```sh
-# user:root
-curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
-bash n lts
-npm install -g n
+# user:polis
+cd database
+cp .envrc.example .envrc
+make init
+make start
 ```
 
 ## polis/server
@@ -38,16 +49,6 @@ git clone https://github.com/sirodoht/polis.git
 cd polis/server/
 
 cp .envrc.example .envrc
-make pginit
-make pgstart
-
-createdb polis
-psql
-\i postgres/migrations/000000_initial.sql
-\i postgres/migrations/000001_update_pwreset_table.sql
-\i postgres/migrations/000002_add_xid_constraint.sql
-\q
-
 npm run build
 npm start
 ```
@@ -140,6 +141,7 @@ rm linux-install-1.11.1.1155.sh
 clojure -A:dev -P
 clojure -M:run full
 
+# dev mode
 clojure -X:dev-poller
 ```
 
@@ -168,7 +170,7 @@ make pgstart
 npm run dev
 # live at http://localhost:8000/
 
-# dev only
+# dev mode
 cd ../caddy/
 make devserver
 # visit at http://localhost/
