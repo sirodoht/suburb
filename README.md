@@ -23,7 +23,9 @@ improvements.
 * No nginx config
 * No SSL config
 * Yes Caddy config
-* Single Node.js (and npm) version for all components, front + back
+* Single Node.js (and npm) version for all front + back components
+* Latest LTS Node.js version for e2e tests
+* e2e cypress updated to v10
 
 ## Deployment
 
