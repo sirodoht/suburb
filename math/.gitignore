@@ -15,10 +15,5 @@
 /classes
 /lib
 /target
-data
-db/
-old
 pom.xml
 pom.xml.asc
-scratch
-wiki
