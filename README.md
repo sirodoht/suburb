@@ -26,6 +26,7 @@ improvements.
 * Single Node.js (and npm) version for all front components + server
 * Latest LTS Node.js version for e2e tests
 * e2e cypress updated to v10
+* No Stripe
 
 ## Deployment
 
