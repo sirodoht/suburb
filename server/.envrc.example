@@ -1,3 +1,5 @@
+use nix
+
 export PORT=8000
 
 export STATIC_FILES_HOST=localhost
