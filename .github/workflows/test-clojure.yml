@@ -1,14 +1,13 @@
-name: Test Math
+name: Test math
 
 on:
   push:
     branches: ["master"]
-    # Note: Only configured for client-admin right now.
     paths:
       - .github/workflows/test-clojure.yml
       - math/**
   pull_request:
-    types: ["opened", "reopened", "synchronize"]
+    branches: ["master"]
     paths:
       - .github/workflows/test-clojure.yml
       - math/**
