@@ -11,17 +11,7 @@
     "deploy:preprod": "node gulpfile.js deployPreprod",
     "start": "node dev-server.js",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "test": "jest"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "collectCoverageFrom": "src/**/*.js",
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary"
-    ]
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "boolean": "^3.0.2",
