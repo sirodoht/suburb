@@ -1,5 +1,7 @@
 # Server playbook for Ubuntu 20.04.5 LTS
 
+This is a server playbook on how to setup a production environment for polis.
+
 ## General server
 
 ```sh
@@ -22,18 +24,12 @@ npm install -g n
 sudo -i -u postgres
 # user:postgres
 createuser polis
-
 psql
-postgres=# ALTER USER polis CREATEDB;
-\q
 ```
 
-```sh
-# user:polis
-cd database
-cp .envrc.example .envrc
-make init
-make start
+```sql
+postgres=# ALTER USER polis CREATEDB;
+\q
 ```
 
 ## polis/server
@@ -123,9 +119,7 @@ npm install
 
 # bring all js bundles here
 mkdir build
-cp -r ../client-admin/dist/* build/
-cp -r ../client-report/dist/* build/
-cp -r ../client-participation/dist/* build/
+make
 ```
 
 ## polis/math
@@ -137,12 +131,8 @@ curl -O https://download.clojure.org/install/linux-install-1.11.1.1155.sh
 chmod +x linux-install-1.11.1.1155.sh
 ./linux-install-1.11.1.1155.sh
 rm linux-install-1.11.1.1155.sh
-
 clojure -A:dev -P
 clojure -M:run full
-
-# dev mode
-clojure -X:dev-poller
 ```
 
 ## polis/caddy
@@ -152,6 +142,8 @@ clojure -X:dev-poller
 cd polis/caddy
 cp .envrc.example .envrc
 make devserver
+
+systemctl status caddy --full --no-pager  # check logs
 ```
 
 ## After reboot
@@ -163,15 +155,21 @@ cd file-server/
 npm start
 
 cd ../math/
-clojure -X:dev-poller
+clojure -M:run full
 
 cd ../server/
-make pgstart
-npm run dev
-# live at http://localhost:8000/
+npm start
+```
 
-# dev mode
-cd ../caddy/
+## Development
+
+```sh
+# math
+clojure -X:dev-poller
+
+# server
+npm run dev
+
+# caddy
 make devserver
-# visit at http://localhost/
 ```
