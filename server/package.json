@@ -8,8 +8,7 @@
     "dev": "./node_modules/typescript/bin/tsc --watch & ./node_modules/nodemon/bin/nodemon.js --inspect=0.0.0.0:9229 -q dist/app.js",
     "type:check:watch": "tsc --watch",
     "format": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --write",
-    "format:check": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --check",
-    "test": "npm run format:check"
+    "format:check": "prettier --config ./prettier.config.js --no-editorconfig 'src/**/*.{js,ts}' --check"
   },
   "dependencies": {
     "@google-cloud/translate": "^1.0.0",
