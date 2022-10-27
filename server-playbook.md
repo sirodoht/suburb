@@ -164,12 +164,17 @@ npm start
 ## Development
 
 ```sh
-# math
+cd polis/
+
+cd file-server/
+npm start
+
+cd ../math/
 clojure -X:dev-poller
 
-# server
+cd ../server/
 npm run dev
 
-# caddy
+cd ../caddy/
 make devserver
 ```
