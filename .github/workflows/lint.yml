@@ -37,3 +37,7 @@ jobs:
     - name: "ESLint: client-admin"
       working-directory: client-admin
       run: npm run lint
+
+    - name: "Prettier: server"
+      working-directory: server
+      run: npm run format:check
