@@ -6187,7 +6187,8 @@ function handle_POST_waitinglist(
   },
   res: { json: (arg0: {}) => void }
 ) {
-    return dbPgQuery.queryP(
+  return dbPgQuery
+    .queryP(
       "insert into waitinglist (email, campaign, affiliation, role, name) values ($1, $2, $3, $4, $5);",
       [
         req.p.email,
