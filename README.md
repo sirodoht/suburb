@@ -21,6 +21,7 @@ The following things are different in suburb:
 * e2e cypress updated to v10
 * Stripe integration removed
 * Database setup has moved into its own directory
+* Separate server.ts into handlers.ts and helpers.ts
 
 ## Feature parity
 
