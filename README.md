@@ -22,11 +22,12 @@ The following things are different in suburb:
 * Stripe integration removed
 * Database setup has moved into its own directory
 * Separate server.ts into handlers.ts and helpers.ts
+* Intercom removed
 
 ## Feature parity
 
 Feature parity with [upstream Polis](https://github.com/compdemocracy/polis)
-is maintained in a separate branch: [feature-parity](/tree/feature-parity).
+is maintained in a separate branch: `feature-parity`.
 
 ## Deployment
 

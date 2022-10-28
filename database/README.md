@@ -18,7 +18,7 @@ createdb polis
 
 ```sh
 cd database/  # if not already
-psql
+psql -U polis
 ```
 
 3. Run all migrations in its shell:
@@ -29,4 +29,5 @@ psql
 \i migrations/000001_update_pwreset_table.sql
 \i migrations/000002_add_xid_constraint.sql
 \i migrations/000003_remove_stripe_tables.sql
+\i migrations/000004_drop_intercom_col.sql
 ```

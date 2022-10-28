@@ -140,7 +140,6 @@ import {
   hostname,
   ifDefinedSet,
   initializeImplicitConversation,
-  intercomClient,
   isConversationOwner,
   isDuplicateKey,
   isOwnerOrParticipant,
@@ -5377,7 +5376,6 @@ function handle_GET_twitter_oauth_callback(
                         function () {
                           // OK, ready
                           u.uid = uid;
-                          //maybeAddToIntercom(u);
                           res.redirect(dest);
                         },
                         function (err: any) {
@@ -6189,55 +6187,16 @@ function handle_POST_waitinglist(
   },
   res: { json: (arg0: {}) => void }
 ) {
-  let intercom_lead_user_id: any;
-  intercomClient.leads
-    // This expression is not callable.
-    // Not all constituents of type 'Bluebird<{ body?: { user_id: string; } | undefined; }> | { (lead: Partial<Lead>): Promise<ApiResponse<Lead>>; (lead: Partial<Lead>, cb: callback<...>): void; }' are callable.
-    // Type 'Bluebird<{ body?: { user_id: string; } | undefined; }>' has no call signatures.ts(2349)
-    // @ts-ignore
-    .create()
-    .then((x: { body: { user_id: any } }) => {
-      intercom_lead_user_id = x.body.user_id;
-      return intercom_lead_user_id;
-    })
-    .then(() => {
-      const custom: { [key: string]: string } = {
-        campaign: req.p.campaign,
-      };
-      if (req.p.affiliation) {
-        custom.affiliation = req.p.affiliation;
-      }
-      if (req.p.role) {
-        custom.role = req.p.role;
-      }
-      return (
-        intercomClient.leads
-          // This expression is not callable.
-          // Not all constituents of type 'Bluebird<{ body?: { user_id: string; } | undefined; }> | { (lead: UserIdentifier & Partial<Lead>): Promise<ApiResponse<Lead>>; (lead: UserIdentifier & Partial<...>, cb: callback<...>): void; }' are callable.
-          // Type 'Bluebird<{ body?: { user_id: string; } | undefined; }>' has no call signatures.ts(2349)
-          // @ts-ignore
-          .update({
-            user_id: intercom_lead_user_id,
-            email: req.p.email,
-            last_request_at: Date.now(),
-            name: req.p.name,
-            custom_attributes: custom,
-          })
-      );
-    })
-    .then(() => {
-      return dbPgQuery.queryP(
-        "insert into waitinglist (email, campaign, affiliation, role, intercom_lead_user_id, name) values ($1, $2, $3, $4, $5, $6);",
-        [
-          req.p.email,
-          req.p.campaign,
-          req.p.affiliation || null,
-          req.p.role || null,
-          intercom_lead_user_id,
-          req.p.name,
-        ]
-      );
-    })
+    return dbPgQuery.queryP(
+      "insert into waitinglist (email, campaign, affiliation, role, name) values ($1, $2, $3, $4, $5);",
+      [
+        req.p.email,
+        req.p.campaign,
+        req.p.affiliation || null,
+        req.p.role || null,
+        req.p.name,
+      ]
+    )
     .then(() => {
       res.json({});
     })

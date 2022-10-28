@@ -18,8 +18,6 @@ export MATH_ENV=dev
 # Set the domain name; make sure this matches what's running on math node
 export DOMAIN_OVERRIDE=localhost:8000
 
-# export DISABLE_INTERCOM=true
-
 # export ADMIN_EMAILS=[]
 # export ADMIN_EMAIL_DATA_EXPORT=""
 # export ADMIN_EMAIL_DATA_EXPORT_TEST=""
@@ -57,7 +55,6 @@ export WEBSERVER_PASS=ws-pass
 # export ENCRYPTION_PASSWORD_00001=
 # export GOOGLE_API_KEY=
 # export GOOGLE_APPLICATION_CREDENTIALS=
-# export INTERCOM_ACCESS_TOKEN=
 # export MAILGUN_API_KEY=
 # export MAILGUN_DOMAIN=
 # export MAXMIND_LICENSEKEY=

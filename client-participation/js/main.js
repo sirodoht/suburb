@@ -12,12 +12,10 @@ Object.defineProperty(window, "_", {
   configurable: false,
 });
 var Backbone = require("backbone");
-var CurrentUserModel = require("./stores/currentUser");
 var display = require("./util/display");
 var eb = require("./eventBus");
 var Handlebars = require("handlebars");
 var MainPolisRouter = require("./routers/main-polis-router");
-var Metrics = require("./metrics");
 var PolisStorage = require("./util/polisStorage");
 var PostMessageUtils = require("./util/postMessageUtils");
 var preloadHelper = require("./util/preloadHelper");
@@ -389,46 +387,6 @@ window.twitterStatus = function(status) {
   eb.trigger(eb.twitterStatus, status);
 };
 
-function isParticipationView() {
-  return !!window.location.pathname.match(/^\/[0-9][A-Za-z0-9]+/);
-}
-
-
-
-// if (isEmbedded()) {
-// $(document.body).css("background-color", "#fff");
-// } else {
-// $(document.body).css("background-color", "#f7f7f7");
-// }
-
-
-
-var uidPromise;
-// if (PolisStorage.uidFromCookie()) {
-//   uidPromise = $.Deferred().resolve(PolisStorage.uidFromCookie());
-// } else {
-uidPromise = CurrentUserModel.update().then(function(user) {
-
-  if (window.useIntercom) {
-    window.intercomOptions = {
-      app_id: 'nb5hla8s',
-      widget: {
-        activator: '#IntercomDefaultWidget'
-      }
-    };
-    if (user.uid) {
-      intercomOptions.user_id = user.uid + "";
-    }
-    if (user.email) {
-      intercomOptions.email = user.email;
-    }
-    if (user.created) {
-      intercomOptions.created_at = user.created / 1000 >> 0;
-    }
-  }
-});
-// }
-
 
 preloadHelper.firstConvPromise.then(function() {
   PostMessageUtils.postInitEvent("ok");
@@ -437,9 +395,7 @@ preloadHelper.firstConvPromise.then(function() {
 });
 
 
-$.when(
-  preloadHelper.acceptLanguagePromise,
-  uidPromise).always(function() {
+$.when(preloadHelper.acceptLanguagePromise).always(function() {
 
   initialize(function(next) {
     // Load any data that your app requires to boot
@@ -447,20 +403,6 @@ $.when(
     // `next` is provided in case the operations
     // needed are aysynchronous
     var router = new MainPolisRouter();
-
-    Metrics.boot();
-    if (!isEmbedded() && !isParticipationView()) {
-      // load intercom widget
-      // (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://static.intercomcdn.com/intercom.v1.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-
-      // IntercomModalHack.init();
-    }
-
-    if (!window.Intercom) {
-      if (window.useIntercom && !isEmbedded() && !isParticipationView()) {
-        window.initIntercom();
-      }
-    }
 
     // set up the "exitConv" event
     var currentRoute;
@@ -470,26 +412,9 @@ $.when(
         eb.trigger(eb.exitConv);
       }
       currentRoute = route;
-
-      uidPromise.then(function() {
-
-        var u = userObject;
-        if (window.useIntercom && !isEmbedded() && !isParticipationView() && (u.email || u.hasTwitter || u.hasFacebook)) {
-          var intercomWait = 0;
-          if (!window.Intercom) {
-            intercomWait = 4000;
-          }
-          setTimeout(function() {
-            window.Intercom('boot', window.intercomOptions);
-            window.Intercom('update');
-            window.Intercom('reattach_activator');
-          }, intercomWait);
-        }
-      });
     });
 
     display.init();
-
     next();
   });
 

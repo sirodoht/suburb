@@ -8,7 +8,6 @@ import Promise from "bluebird";
 import httpProxy from "http-proxy";
 // @ts-ignore
 import FB from "fb";
-import * as IntercomOfficial from "intercom-client";
 import isTrue from "boolean";
 import OAuth from "oauth";
 import replaceStream from "replacestream";
@@ -166,18 +165,6 @@ let fetchIndexForReportPage = makeFileFetcher(
     "Content-Type": "text/html",
   }
 );
-
-const intercomClient =
-  !isTrue(process.env.DISABLE_INTERCOM) && process.env.INTERCOM_ACCESS_TOKEN
-    ? new IntercomOfficial.Client({
-        token: process.env.INTERCOM_ACCESS_TOKEN,
-      })
-    : {
-        leads: {
-          create: resolveWith({ body: { user_id: "null_intercom_user_id" } }),
-          update: resolveWith({}),
-        },
-      };
 
 let zidToConversationIdCache = new LruCache({
   max: 1000,
@@ -6309,7 +6296,6 @@ export {
   getPca,
   isModerator,
   hostname,
-  intercomClient,
   portForParticipationFiles,
   doAddDataExportTask,
   getZidForRid,
