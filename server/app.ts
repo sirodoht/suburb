@@ -1776,12 +1776,6 @@ helpersInitialized.then(
         }
       )
     );
-    app.get(
-      /^\/styleguide$/,
-      makeFileFetcher(hostname, portForParticipationFiles, "/styleguide.html", {
-        "Content-Type": "text/html",
-      })
-    );
     // Duplicate url for content at root. Needed so we have something for "About" to link to.
     app.get(/^\/about$/, makeRedirectorTo("/home"));
     app.get(/^\/home(\/.*)?/, fetchIndexForAdminPage);

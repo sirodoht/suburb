@@ -181,10 +181,6 @@ gulp.task("connect", [], function () {
       path.join(destRootBase, "canvas_setup_backup_instructions.html")
     )
   );
-  app.use(
-    /^\/styleguide$/,
-    express.static(path.join(destRootBase, "styleguide.html"))
-  );
   // Duplicate url for content at root. Needed so we have something for "About" to link to.
   app.use(
     /^\/billions$/,

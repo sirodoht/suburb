@@ -163,7 +163,6 @@ get /^\/share\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // share v
 get /^\/signin(\/.*)?/, fetchIndexForAdminPage);
 get /^\/signout(\/.*)?/, fetchIndexForAdminPage);
 get /^\/slack_login_code.*/,
-get /^\/styleguide$/,
 get /^\/summary\/[0-9][0-9A-Za-z]+(\/.*)?/, fetchIndexForConversation); // summary view
 get /^\/thirdPartyCookieTestPt1\.html$/, fetchThirdPartyCookieTestPt1);
 get /^\/thirdPartyCookieTestPt2\.html$/, fetchThirdPartyCookieTestPt2);
