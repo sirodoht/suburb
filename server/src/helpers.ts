@@ -4113,7 +4113,7 @@ function ifDefinedFirstElseSecond(first: any, second: boolean) {
 function getOneConversation(zid: any, uid?: any, lang?: null) {
   return Promise.all([
     dbPgQuery.queryP_readOnly(
-      "select * from conversations left join  (select uid, site_id, plan from users) as u on conversations.owner = u.uid where conversations.zid = ($1);",
+      "select * from conversations left join  (select uid, site_id from users) as u on conversations.owner = u.uid where conversations.zid = ($1);",
       [zid]
     ),
     getConversationHasMetadata(zid),
