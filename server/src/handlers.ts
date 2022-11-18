@@ -84,6 +84,7 @@ import {
   userHasAnsweredZeQuestions,
   verifyHmacForQueryParams,
   addNotificationTask,
+  addParticipant,
   addParticipantAndMetadata,
   commentExists,
   finishOne,
