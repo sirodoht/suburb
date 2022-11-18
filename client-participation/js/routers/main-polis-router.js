@@ -4,7 +4,6 @@ var Backbone = require("backbone");
 var bbFetch = require("../net/bbFetch");
 var ConversationModel = require("../models/conversation");
 var eb = require("../eventBus");
-var metric = require("../util/gaMetric");
 var ParticipantModel = require("../models/participant");
 var ParticipationView = require("../views/participation");
 var PolisStorage = require("../util/polisStorage");
@@ -19,15 +18,6 @@ var hasEmail = require("../util/polisStorage").hasEmail;
 
 var match = window.location.pathname.match(/ep1_[0-9A-Za-z]+$/);
 var encodedParams = match ? match[0] : void 0;
-
-var routeEvent = metric.routeEvent;
-
-var authenticatedDfd = $.Deferred();
-authenticatedDfd.done(function() {
-  // link uid to GA userId
-  // TODO update this whenever auth changes
-  ga('set', 'userId', PolisStorage.uid() || PolisStorage.uidFromCookie());
-});
 
 function onFirstRender() {
   $("#mainSpinner").hide();
@@ -59,15 +49,10 @@ var polisRouter = Backbone.Router.extend({
       onFirstRender();
     });
 
-    if (authenticated()) {
-      authenticatedDfd.resolve();
-    }
-
   }, // end initialize
   r: function(pattern, methodNameToCall) {
     var that = this;
     this.route(pattern, function() {
-      routeEvent(methodNameToCall, arguments);
       that[methodNameToCall].apply(that, arguments);
     });
   },
