@@ -1635,14 +1635,6 @@ function initializePolisHelpers() {
       });
   }
 
-  function getConversationTranslations(zid: any, lang: string) {
-    const firstTwoCharsOfLang = lang.substr(0, 2);
-    return dbPgQuery.queryP(
-      "select * from conversation_translations where zid = ($1) and lang = ($2);",
-      [zid, firstTwoCharsOfLang]
-    );
-  }
-
   function getTwitterUserInfoBulk(list_of_twitter_user_id: any[]) {
     list_of_twitter_user_id = list_of_twitter_user_id || [];
     let oauth = new OAuth.OAuth(
@@ -1771,14 +1763,6 @@ function initializePolisHelpers() {
   // Ensure we don't call this more than 60 times in each 15 minute window (across all of our servers/use-cases)
   setInterval(updateSomeTwitterUsers, 1 * 60 * 1000);
   updateSomeTwitterUsers();
-
-  function createEmptyVoteVector(greatestTid: number) {
-    let a = [];
-    for (var i = 0; i <= greatestTid; i++) {
-      a[i] = "u"; // (u)nseen
-    }
-    return a;
-  }
 
   // Value of type 'typeof LRUCache' is not callable. Did you mean to include 'new'? ts(2348)
   // @ts-ignore
@@ -1936,7 +1920,7 @@ function initializePolisHelpers() {
     // Argument of type '{ path: string; headers?: { host: string; } | undefined; }' is not assignable to parameter of type 'Req'.
     //  Property 'cookies' is missing in type '{ path: string; headers?: { host: string; } | undefined; }' but required in type 'Req'.ts(2345)
     // @ts-ignore
-    cookies.setCookieTestCookie(req, res, shouldSetCookieOnPolisDomain(req));
+    cookies.setCookieTestCookie(req, res, cookies.shouldSetCookieOnPolisDomain(req));
 
     if (devMode) {
       buildNumber = null;
@@ -2042,6 +2026,7 @@ function initializePolisHelpers() {
       .catch(function (err: any) {
         // Argument of type '{ path: string; query?: { build: any; } | undefined; }' is not assignable to parameter of type '{ headers?: { host: any; } | undefined; path: any; pipe: (arg0: any) => void; }'.
         //   Property 'pipe' is missing in type '{ path: string; query?: { build: any; } | undefined; }' but required in type '{ headers?: { host: any; } | undefined; path: any; pipe: (arg0: any) => void; }'.ts(2345)
+        console.error(err)
         // @ts-ignore
         fetch404Page(req, res);
         // Log.fail(res, 500, "polis_err_fetching_conversation_info2", err);

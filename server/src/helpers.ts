@@ -4084,6 +4084,14 @@ function getConversationHasMetadata(zid: any) {
   });
 }
 
+function getConversationTranslations(zid: any, lang: string) {
+  const firstTwoCharsOfLang = lang.substr(0, 2);
+  return dbPgQuery.queryP(
+    "select * from conversation_translations where zid = ($1) and lang = ($2);",
+    [zid, firstTwoCharsOfLang]
+  );
+}
+
 function getConversationTranslationsMinimal(zid: any, lang: any) {
   if (!lang) {
     return Promise.resolve([]);
@@ -5103,6 +5111,14 @@ function getVotesForPids(zid: any, pids: any[]) {
         return votesRows;
       })
   );
+}
+
+function createEmptyVoteVector(greatestTid: number) {
+  let a = [];
+  for (var i = 0; i <= greatestTid; i++) {
+    a[i] = "u"; // (u)nseen
+  }
+  return a;
 }
 
 function aggregateVotesToPidVotesObj(votes: string | any[]) {
@@ -6350,6 +6366,7 @@ export {
   getVotesForSingleParticipant,
   getNextComment,
   finishOne,
+  addParticipant,
   addParticipantAndMetadata,
   addStar,
   addNoMoreCommentsRecord,
