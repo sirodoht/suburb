@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="<%= basepath %>/css/polis.css"> <!-- proxy all CSS through server for respond.js -->
 
     <script>
+      window.userObject = {};
+
       window.domainWhitelist = <%= domainWhitelist %>;
       window.preload = "REPLACE_THIS_WITH_PRELOAD_DATA";
       window.version = "<%= versionString %>";
