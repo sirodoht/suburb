@@ -3,7 +3,7 @@ module.exports = {
     // local ports
     "^localhost$",
     "^127\\.0\\.0\\.1$",
-    "^192\\.168\\.1\\.140$",
+    "^192\\.168\\.[0-9]{1,3}\\.[0-9]{1,3}$",
 
     // sample configuration for main pol.is deployment
     "^pol\\.is",
