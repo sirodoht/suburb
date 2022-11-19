@@ -75,6 +75,7 @@ git clone https://github.com/sirodoht/polis.git
 cd polis/server/
 
 cp .envrc.example .envrc
+direnv allow .
 npm install
 npm run build
 npm start
@@ -88,6 +89,7 @@ su - polis
 
 cd polis/client-admin
 cp .envrc.example .envrc
+direnv allow .
 npm install
 cp polis.config.template.js polis.config.js
 npm run build
@@ -120,6 +122,7 @@ su - polis
 # user:polis
 cd polis/client-report
 cp .envrc.example .envrc
+direnv allow .
 cp polis.config.template.js polis.config.js
 npm install
 npm install # yes, twice
