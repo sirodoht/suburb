@@ -4,7 +4,7 @@ This is a server playbook on how to setup a production environment for polis.
 
 ## Development Virtual Machine setup
 
-You can use [Ubuntu Multipass](https://multipass.run/) to easily setup a virtual machine on your local laptop. You will need at least 4GB RAM and 16GB of disk
+You can use [Ubuntu Multipass](https://multipass.run/) to easily setup a virtual machine on your local laptop. You will need at least 8GB RAM and 16GB of disk
 
 For OSX
 
