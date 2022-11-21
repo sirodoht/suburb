@@ -557,7 +557,7 @@ gulp.task("scriptsOther", function () {
 
 gulp.task("scriptsD3v4", function () {
   var files = [];
-  files.push("node_modules/d3-v4/build/d3.min.js");
+  files.push("js/3rdparty/d3.v4.min.js");
   var s = gulp.src(files);
   if (!devMode) {
     s = s
@@ -566,7 +566,7 @@ gulp.task("scriptsD3v4", function () {
       .pipe(renameToRemoveGzExtention())
       .pipe(rename("d3.v4.min.js"));
   }
-  return s.pipe(gulp.dest(destRoot() + "/js/"));
+  return s.pipe(gulp.dest(destRoot() + "/js"));
 });
 
 gulp.task("preprodConfig", function () {

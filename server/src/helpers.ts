@@ -4084,6 +4084,14 @@ function getConversationHasMetadata(zid: any) {
   });
 }
 
+function getConversationTranslations(zid: any, lang: string) {
+  const firstTwoCharsOfLang = lang.substr(0, 2);
+  return dbPgQuery.queryP(
+    "select * from conversation_translations where zid = ($1) and lang = ($2);",
+    [zid, firstTwoCharsOfLang]
+  );
+}
+
 function getConversationTranslationsMinimal(zid: any, lang: any) {
   if (!lang) {
     return Promise.resolve([]);
@@ -4113,7 +4121,7 @@ function ifDefinedFirstElseSecond(first: any, second: boolean) {
 function getOneConversation(zid: any, uid?: any, lang?: null) {
   return Promise.all([
     dbPgQuery.queryP_readOnly(
-      "select * from conversations left join  (select uid, site_id, plan from users) as u on conversations.owner = u.uid where conversations.zid = ($1);",
+      "select * from conversations left join  (select uid, site_id from users) as u on conversations.owner = u.uid where conversations.zid = ($1);",
       [zid]
     ),
     getConversationHasMetadata(zid),
@@ -4978,12 +4986,7 @@ function getSocialParticipants(
     return socialParticipantsCache.get(cacheKey);
   }
 
-  const authorsQueryParts = (authorUids || []).map(function (authoruid?: any) {
-    // TODO investigate this one.
-    // TODO looks like a possible typo bug
-    // Cannot find name 'authorUid'. Did you mean 'authoruid'?ts(2552)
-    // server.ts(12486, 7): 'authoruid' is declared here.
-    // @ts-ignore
+  const authorsQueryParts = (authorUids || []).map(function (authorUid?: any) {
     return "select " + Number(authorUid) + " as uid, 900 as priority";
   });
   let authorsQuery: string | null =
@@ -5103,6 +5106,14 @@ function getVotesForPids(zid: any, pids: any[]) {
         return votesRows;
       })
   );
+}
+
+function createEmptyVoteVector(greatestTid: number) {
+  let a = [];
+  for (var i = 0; i <= greatestTid; i++) {
+    a[i] = "u"; // (u)nseen
+  }
+  return a;
 }
 
 function aggregateVotesToPidVotesObj(votes: string | any[]) {
@@ -6350,6 +6361,7 @@ export {
   getVotesForSingleParticipant,
   getNextComment,
   finishOne,
+  addParticipant,
   addParticipantAndMetadata,
   addStar,
   addNoMoreCommentsRecord,
