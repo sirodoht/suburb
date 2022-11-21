@@ -1920,7 +1920,11 @@ function initializePolisHelpers() {
     // Argument of type '{ path: string; headers?: { host: string; } | undefined; }' is not assignable to parameter of type 'Req'.
     //  Property 'cookies' is missing in type '{ path: string; headers?: { host: string; } | undefined; }' but required in type 'Req'.ts(2345)
     // @ts-ignore
-    cookies.setCookieTestCookie(req, res, cookies.shouldSetCookieOnPolisDomain(req));
+    cookies.setCookieTestCookie(
+      req,
+      res,
+      cookies.shouldSetCookieOnPolisDomain(req)
+    );
 
     if (devMode) {
       buildNumber = null;
@@ -2026,7 +2030,7 @@ function initializePolisHelpers() {
       .catch(function (err: any) {
         // Argument of type '{ path: string; query?: { build: any; } | undefined; }' is not assignable to parameter of type '{ headers?: { host: any; } | undefined; path: any; pipe: (arg0: any) => void; }'.
         //   Property 'pipe' is missing in type '{ path: string; query?: { build: any; } | undefined; }' but required in type '{ headers?: { host: any; } | undefined; path: any; pipe: (arg0: any) => void; }'.ts(2345)
-        console.error(err)
+        console.error(err);
         // @ts-ignore
         fetch404Page(req, res);
         // Log.fail(res, 500, "polis_err_fetching_conversation_info2", err);
