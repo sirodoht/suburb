@@ -1,6 +1,6 @@
-describe('Embedded Conversations', () => {
+describe.skip('Embedded Conversations', () => {
   // This test requires overriding client-admin/embed.html with
-  // e2e/cypress/fixtures/html/embeds.html
+  // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
   const CONVO_DESCRIPTION = 'This is dummy description for embed tests.'
   const CONVO_TOPIC = 'Embed test topic'

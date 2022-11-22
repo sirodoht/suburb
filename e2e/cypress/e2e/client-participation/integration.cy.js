@@ -1,6 +1,6 @@
-describe('Integrated Conversations', () => {
+describe.skip('Integrated Conversations', () => {
   // This test requires overriding client-admin/embed.html with
-  // e2e/cypress/fixtures/html/embeds.html
+  // e2e/cypress/fixtures/html/embeds.html - see https://github.com/compdemocracy/polis/issues/839
   const POLIS_DOMAIN = Cypress.config().baseUrl.replace('https://', '')
   const CONVO_TOPIC = 'Integration test topic'
   const CONVO_DEFAULTS = {
