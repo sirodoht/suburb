@@ -8,8 +8,8 @@ var Utils = require("../util/utils");
 var isMobile = Utils.isMobile();
 
 
-var iconFaAngleLeft = require("../tmpl/icon_fa_angle_left");
-var iconFaAngleRight = require("../tmpl/icon_fa_angle_right");
+var iconFaAngleLeft = require("../templates/icon_fa_angle_left.handlebars");
+var iconFaAngleRight = require("../templates/icon_fa_angle_right.handlebars");
 
 
 function addMultipleOwlItems(htmlStrings, targetPosition) {

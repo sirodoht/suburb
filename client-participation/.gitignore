@@ -5,6 +5,6 @@
 *.log
 build
 dist
+disttmp
 js/tmpl/
 polisStatic/
-public

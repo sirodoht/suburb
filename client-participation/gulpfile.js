@@ -289,7 +289,7 @@ gulp.task("templates", function () {
     /userCreate.handlebars$/,
     /create-user-form.handlebars$/,
     /login-form.handlebars$/,
-    /settings.handlebars$/,
+    /settings.handlebars$/, // Exists
     /summary.handlebars$/,
     /inbox.handlebars$/,
     /moderation.handlebars$/,

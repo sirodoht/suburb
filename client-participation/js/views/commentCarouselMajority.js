@@ -2,11 +2,11 @@
 
 
 var CommentCarousel = require('./commentCarousel');
-var carouselCommentMobileTemplate = require("../tmpl/carouselCommentMobile");
-var carouselCommentTemplate = require("../tmpl/carouselComment");
+var carouselCommentMobileTemplate = require("../templates/carouselCommentMobile.handlebars");
+var carouselCommentTemplate = require("../templates/carouselComment.handlebars");
 var constants = require("../util/constants");
 var display = require("../util/display");
-var template = require("../tmpl/commentCarouselMajority");
+var template = require("../templates/commentCarouselMajority.handlebars");
 var Strings = require("../strings");
 var Utils = require("../util/utils");
 

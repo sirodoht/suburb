@@ -1,5 +1,5 @@
 var PolisModelView = require("../lib/PolisModelView");
-var template = require("../tmpl/settings");
+var template = require("../templates/settings.handlebars");
 
 module.exports = PolisModelView.extend({
   name: "settings",
