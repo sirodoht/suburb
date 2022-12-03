@@ -1,6 +1,7 @@
 const path = require("path")
 const webpack = require("webpack")
 const CopyPlugin = require("copy-webpack-plugin")
+const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const EventHooksPlugin = require('event-hooks-webpack-plugin')
 const LodashReplacementPlugin = require('lodash-webpack-plugin')
@@ -8,12 +9,19 @@ const HandlebarsPlugin = require('handlebars-webpack-plugin')
 const lodashTemplate = require('lodash.template')
 const glob = require('glob')
 const fs = require('fs')
+const pkg = require('./package.json')
 
 const polisConfig = require('./polis.config')
 const TerserPlugin = require("terser-webpack-plugin")
 
 const outputDirectory = 'disttmp'
 
+/**
+ * Generates .headersJson files alongside files served by the file-server. Reading these files instructs file-server
+ * what HTML headers should be added to each file.
+ * 
+ * @deprecated
+ */
 function writeHeadersJsonForOutputFiles() {
   function writeHeadersJson(matchGlob, headersData = {}) {
     const files = glob.sync(path.resolve(__dirname, outputDirectory, matchGlob))
@@ -40,7 +48,8 @@ function writeHeadersJsonForOutputFiles() {
       'Cache-Control':
         'no-transform,public,max-age=31536000,s-maxage=31536000'
     }
-    writeHeadersJson('static/js/*.js?(.map)', headersData)
+    writeHeadersJson('js/*.js', headersData)
+    writeHeadersJson('*.js', headersData)
   }
 
   function writeHeadersJsonMisc() {
@@ -56,13 +65,14 @@ function writeHeadersJsonForOutputFiles() {
 module.exports = (env, options) => {
   var isDevBuild = options.mode === 'development'
   var isDevServer = process.env.WEBPACK_SERVE
-  var chunkHash = '[chunkhash:8]' // Webpack magically assigns this to a unique string on compile
-  var cacheBusterFragment = (isDevBuild || isDevServer) ? '' : `.${chunkHash}` // Used in filenames to 'cache bust'
   return {
-    entry: ['./js/main'],
+    entry: [
+      './js/main',
+      './css/polis_main.scss'
+    ],
     output: {
       publicPath: '/',
-      filename: `static/js/participation_bundle${cacheBusterFragment}.js`,
+      filename: `js/participation_bundle.[chunkhash:8].js`,
       path: path.resolve(__dirname, outputDirectory),
       clean: true
     },
@@ -77,7 +87,6 @@ module.exports = (env, options) => {
         'handlebones': path.resolve(__dirname, 'node_modules/handlebones/handlebones'),
         'markdown': path.resolve(__dirname, 'node_modules/markdown/lib/markdown.js'),
         'visview': path.resolve(__dirname, 'js/lib/VisView'),
-        // 'bootstrap-affix': path.resolve(__dirname, 'node_modules/bootstrap-sass/assets/javascripts/bootstrap/affix')
       }
     },
     devServer: {
@@ -97,13 +106,12 @@ module.exports = (env, options) => {
         '$': 'jquery',
         'jQuery': 'jquery',
         'Handlebars': 'handlebars',
-        'Backbone': 'backbone',
+        'Backbone': 'backbone', // FIXME: Is this actually necessary?
         'Backbone': 'custom-backbone',
         '_': 'underscore',
         'Handlebones': 'handlebones',
         'markdown': 'markdown',
         'VisView': 'visview'
-        // 'bootstrap_affix': 'bootstrap-affix'
       }),
       new CopyPlugin({
         patterns: [
@@ -115,7 +123,7 @@ module.exports = (env, options) => {
               return lodashTemplate(content.toString())({ polisHostName: polisConfig.SERVICE_HOSTNAME })
             }
           },
-          { from: 'node_modules/font-awesome/fonts/**/*', to: 'fonts' }
+          { from: 'node_modules/font-awesome/fonts/**/*', to: './fonts/[name][ext]' }
         ]
       }),
       new HtmlWebPackPlugin({
@@ -123,11 +131,9 @@ module.exports = (env, options) => {
         filename: 'index.html',
         templateParameters: {
           domainWhitelist: `["${polisConfig.domainWhitelist.join('","')}"]`,
-          versionString: chunkHash,
-          basepath: '', // FIXME: Needed?
+          versionString: pkg.version,
           fbAppId: polisConfig.FB_APP_ID,
           d3Filename: 'd3.min.js', // FIXME: Needed?
-          basepath_visbundle: '' // FIXME: Needed?
         }
       }),
       new LodashReplacementPlugin({
@@ -137,8 +143,13 @@ module.exports = (env, options) => {
         placeholders: true,
         shorthands: true
       }),
-      // Only create headerJson files during production builds.
+      // Only compress and create headerJson files during production builds.
       ...((isDevBuild || isDevServer) ? [] : [
+        // new CompressionPlugin({
+        //   test: /\.js$/,
+        //   filename: '[path][base]',
+        //   deleteOriginalAssets: true
+        // }),
         new EventHooksPlugin({
           afterEmit: () => {
             console.log('Writing *.headersJson files...')
@@ -147,7 +158,7 @@ module.exports = (env, options) => {
         })
       ])
     ],
-    // Only compress during production builds
+    // Only minify during production builds
     optimization: {
       minimize: !isDevBuild,
       minimizer: [new TerserPlugin()]
@@ -156,14 +167,15 @@ module.exports = (env, options) => {
       rules: [
         {
           test: /\.(handlebars|hbs)$/,
+          exclude: /node_modules/,
           loader: 'handlebars-loader',
           options: {
-            ignorePartials: true
+            ignorePartials: true // We load partials at runtime so ignore at compile-time
           }
         },
         {
           test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
@@ -173,15 +185,24 @@ module.exports = (env, options) => {
         },
         {
           test: /\.(png|jpg|gif|svg)$/,
+          exclude: /node_modules/,
           use: ['file-loader'],
         },
         {
           test: /\.mdx?$/,
+          exclude: /node_modules/,
           use: ['babel-loader', '@mdx-js/loader']
         },
         {
           test: /\.s[ac]ss$/,
-          use: ['style-loader', 'css-loader']
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: { outputPath: 'css/', name: 'polis.css' }
+            },
+            'sass-loader'
+          ]
         }
       ]
     }

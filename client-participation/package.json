@@ -64,6 +64,7 @@
     "compression-webpack-plugin": "^10.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "event-hooks-webpack-plugin": "^2.2.0",
+    "file-loader": "^6.2.0",
     "gulp-browserify": "~0.4.2",
     "gulp-cli": "^1.4.0",
     "gulp-concat": "~2.1.7",
