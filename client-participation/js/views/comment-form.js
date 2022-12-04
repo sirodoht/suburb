@@ -13,6 +13,7 @@ var ProfilePicView = require('../views/profilePicView');
 var serialize = require("../util/serialize");
 var Strings = require("../strings");
 var Utils = require("../util/utils");
+var $ = require("jquery");
 
 var CHARACTER_LIMIT = constants.CHARACTER_LIMIT;
 

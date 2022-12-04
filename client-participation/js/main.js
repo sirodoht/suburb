@@ -5,13 +5,11 @@ var preloadHelper = require("./util/preloadHelper");
 
 
 var $ = require("jquery");
-var _ = require("underscore");
-Object.defineProperty(window, "_", {
-  enumerable: true,
-  writable: false,
-  configurable: false,
-});
+var _ = require("lodash");
+
+require('../vis2/vis2') // This is to initialise the 'window' object
 var Backbone = require("backbone");
+require("./net/backbonePolis"); // Monkeypatch Backbone
 var display = require("./util/display");
 var eb = require("./eventBus");
 var Handlebars = require("handlebars");

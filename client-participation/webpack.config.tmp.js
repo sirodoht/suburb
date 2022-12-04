@@ -91,14 +91,9 @@ module.exports = (env, options) => {
     resolve: {
       extensions: ['.js', '.css', '.png', '.svg'],
       alias: {
-        // 'jquery': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
         'handlebars': path.resolve(__dirname, 'node_modules/handlebars/dist/cjs/handlebars.runtime.js'),
         'backbone': path.resolve(__dirname, 'node_modules/backbone/backbone'), // FIXME: Needed?
-      //   'custom-backbone': path.resolve(__dirname, 'js/net/backbonePolis'),
-        // 'underscore': path.resolve(__dirname, 'node_modules/underscore/underscore'), // FIXME: Needed?
         'handlebones': path.resolve(__dirname, 'node_modules/handlebones/handlebones'),
-        // 'markdown': path.resolve(__dirname, 'node_modules/markdown/lib/index.js'),
-        // 'visview': path.resolve(__dirname, 'js/lib/VisView'),
         // 'handlebars-v1',
         'deepcopy': path.resolve(__dirname, 'node_modules/deepcopy/deepcopy.js')
       }
@@ -121,13 +116,7 @@ module.exports = (env, options) => {
         // 'Handlebars': 'handlebars',
         // 'Handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
         'Backbone': 'backbone',
-        // 'jQuery': 'jquery',
-      //   'Backbone': 'backbone', // FIXME: Is this actually necessary?
-      //   'Backbone': 'custom-backbone',
-        '_': 'lodash',
         'Handlebones': 'handlebones',
-        // 'markdown': 'markdown',
-        // 'VisView': 'js/lib/VisView'
       }),
       new CopyPlugin({
         patterns: [
@@ -139,9 +128,6 @@ module.exports = (env, options) => {
               return lodashTemplate(content.toString())({ polisHostName: polisConfig.SERVICE_HOSTNAME })
             }
           },
-          { from: 'node_modules/d3/d3.min.js', to: './js/d3.min.js' },
-          { from: 'js/3rdparty/d3.v4.min.js', to: './js/d3.v4.min.js' },
-
           { from: 'node_modules/font-awesome/fonts/**/*', to: './fonts/[name][ext]' }
         ]
       }),
@@ -151,17 +137,9 @@ module.exports = (env, options) => {
         templateParameters: {
           domainWhitelist: `["${polisConfig.domainWhitelist.join('","')}"]`,
           versionString: pkg.version,
-          fbAppId: polisConfig.FB_APP_ID,
-          d3Filename: 'd3.min.js', // FIXME: Needed?
+          fbAppId: polisConfig.FB_APP_ID
         }
       }),
-      // new LodashReplacementPlugin({
-      //   currying: true,
-      //   flattening: true,
-      //   paths: true,
-      //   placeholders: true,
-      //   shorthands: true
-      // }),
       // Generate the .headersJson files ...
       new EventHooksPlugin({
         afterEmit: () => {
@@ -242,7 +220,7 @@ module.exports = (env, options) => {
             },
           },
         },
-        // These modules expect various globals to be present e.g. jQuery
+        // These modules expect various globals to be present e.g. jQuery before they can be imported
         {
           test: /bootstrap\/(transition|button|tooltip|affix|dropdown|collapse|popover|tab|alert)/,
           use: [

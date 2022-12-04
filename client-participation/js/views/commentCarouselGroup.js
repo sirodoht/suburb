@@ -48,7 +48,7 @@ module.exports = CommentCarousel.extend({
     // Copy comments out of collection. don't want to sort collection, since it's shared with Analyze View.
     var comments = that.collection.models.slice(0);
 
-    comments = _.indexBy(comments, "id"); // id is tid
+    comments = _.KeyBy(comments, "id"); // id is tid
 
     // remove tids that are not present in the comments list (for example, tids that were moderated out)
     // TODO exclude moderated-out comments from the repfull list

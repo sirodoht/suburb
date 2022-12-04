@@ -469,7 +469,7 @@ module.exports = function VisView(params) {
 
 
   function updateHulls() {
-    bidToBucket = _.object(_.map(nodes, "bid"), nodes);
+    bidToBucket = _.zipObject(_.map(nodes, "bid"), nodes);
     hulls = clusters.map(function(cluster) {
       var temp = _.map(cluster, function(bid) {
         var bucket = bidToBucket[bid];
@@ -1280,7 +1280,7 @@ module.exports = function VisView(params) {
       return 0;
     }
 
-    var bidToOldNode = _.indexBy(nodes, getBid);
+    var bidToOldNode = _.keyBy(nodes, getBid);
 
     (function() {
       for (var i = 0; i < updatedNodes.length; i++) {
@@ -1307,9 +1307,7 @@ module.exports = function VisView(params) {
     }
 
     oldpositions.forEach(function(oldNode) {
-      var newNode = _.findWhere(nodes, {
-        bid: oldNode.bid
-      });
+      var newNode = nodes.find(n => n.bid === oldNode.bid);
       if (!newNode) {
         console.warn("not sure why a node would disappear");
         return;
