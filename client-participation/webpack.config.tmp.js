@@ -92,7 +92,7 @@ module.exports = (env, options) => {
       extensions: ['.js', '.css', '.png', '.svg'],
       alias: {
         // 'jquery': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
-        'handlebars': path.resolve(__dirname, 'node_modules/handlebars/dist/handlebars.runtime.js'),
+        'handlebars': path.resolve(__dirname, 'node_modules/handlebars/dist/cjs/handlebars.runtime.js'),
         'backbone': path.resolve(__dirname, 'node_modules/backbone/backbone'), // FIXME: Needed?
       //   'custom-backbone': path.resolve(__dirname, 'js/net/backbonePolis'),
         // 'underscore': path.resolve(__dirname, 'node_modules/underscore/underscore'), // FIXME: Needed?
@@ -118,7 +118,7 @@ module.exports = (env, options) => {
       // Define some globals
       new webpack.ProvidePlugin({
         '$': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
-        'Handlebars': 'handlebars',
+        // 'Handlebars': 'handlebars',
         // 'Handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
         'Backbone': 'backbone',
         // 'jQuery': 'jquery',

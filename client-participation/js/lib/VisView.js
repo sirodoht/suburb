@@ -3,11 +3,14 @@
 var eb = require("../eventBus");
 var display = require("../util/display");
 var Utils = require("../util/utils");
+var $ = require('jquery');
+var d3_old = require('d3');
 require('d3-tip');
+
 // TODO are we using force Layout or not? not really. so it may be worth cleaning up to simplify.
 // Use a css animation to transition the position
 
-export default function(params) {
+module.exports = function VisView(params) {
 
   var el_selector = params.el;
   var el_queryResultSelector = params.el_queryResultSelector;
