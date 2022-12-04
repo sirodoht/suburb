@@ -13,7 +13,7 @@ const pkg = require('./package.json')
 const polisConfig = require('./polis.config')
 const TerserPlugin = require("terser-webpack-plugin")
 
-const outputDirectory = 'disttmp'
+const outputDirectory = 'dist'
 
 /**
  * Generates .headersJson files alongside files served by the file-server. Reading these files instructs file-server
