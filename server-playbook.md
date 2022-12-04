@@ -44,6 +44,7 @@ apt install -y postgresql g++ git make python python-dev libpq-dev direnv
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 bash n lts
 npm install -g n
+n 18.12.1 # for client-participation build
 n 11.15.0
 npm install -g npm@7.0
 ```
@@ -102,17 +103,15 @@ npm run deploy:prod
 
 ```sh
 # user:root (production only)
+# Note client-participation has migrated to the latest Node version
+n use 18.12.1
 su - polis
 
 cd polis/client-admin
 npm install
-node node_modules/node-sass/scripts/install.js
-npm rebuild node-sass
-npm install
 
 cp polis.config.template.js polis.config.js
-npm run build
-npm run deploy:prod
+npm run build:prod
 ```
 
 ## polis/client-report
