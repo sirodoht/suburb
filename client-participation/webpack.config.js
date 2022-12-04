@@ -63,7 +63,10 @@ function writeHeadersJsonForOutputFiles(isDev) {
   }
 
   function writeHeadersJsonMisc() {
-    writeHeadersJson('favicon.ico')
+    const headersData = {
+      'Content-Type': 'image/vnd.microsoft.icon'
+    }
+    writeHeadersJson('favicon.ico', headersData)
   }
 
   writeHeadersJsonCss()
