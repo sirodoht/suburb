@@ -56,7 +56,7 @@ function writeHeadersJsonForOutputFiles(isDev) {
     const headersData = {
       'x-amz-acl': 'public-read',
       ...(!isDev && { 'Content-Encoding': 'gzip' }),
-      'Content-Type': 'application/javascript',
+      'Content-Type': 'text/css',
       'Cache-Control':
         'no-transform,public,max-age=31536000,s-maxage=31536000'
     }
