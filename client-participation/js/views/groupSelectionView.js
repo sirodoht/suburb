@@ -4,6 +4,7 @@ var template = require("../templates/groupSelectionView.handlebars");
 var Handlebones = require("handlebones");
 var _ = require("underscore");
 var Strings = require("../strings");
+var $ = require("jquery");
 
 
 module.exports =  Handlebones.ModelView.extend({

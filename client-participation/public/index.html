@@ -233,6 +233,11 @@
 
       }());
     </script>
+    <script src="/js/<%= d3Filename %>"></script>
+    <script> d3_old = d3; delete d3;</script>
+    <script src="/js/d3.v4.min.js"></script>
+    <!-- <script src="/js/polis.js"></script> -->
+    <!-- <script src="/js/vis_bundle.js"></script> -->
   </head>
 
   <body class="clickDeselectsHull" style="margin:0; background-color: white;">
@@ -256,12 +261,6 @@
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     </script>
-
-    <script src="/js/<%= d3Filename %>"></script>
-    <script> d3_old = d3; delete d3;</script>
-    <script src="/js/d3.v4.min.js"></script>
-    <script src="/js/polis.js"></script>
-    <script src="/js/vis_bundle.js"></script>
 
     <p id="mainSpinner" style="text-align:center; margin: auto; width:100%; display: none">
       <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

@@ -9,6 +9,7 @@ var preloadHelper = require("../util/preloadHelper");
 var template = require("../templates/vote-view.handlebars");
 var Utils = require("../util/utils");
 var Strings = require("../strings");
+var $ = require("jquery");
 
 var iOS = Utils.isIos();
 

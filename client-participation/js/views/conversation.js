@@ -12,6 +12,7 @@ var preloadHelper = require("../util/preloadHelper");
 var ServerClient = require("../stores/polis");
 var VotesCollection = require("../collections/votes");
 var Utils = require("../util/utils");
+var $ = require("jquery");
 
 module.exports = PolisModelView.extend({
 

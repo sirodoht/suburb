@@ -8,6 +8,7 @@ var PostMessageUtils = require("../util/postMessageUtils");
 var preloadHelper = require("../util/preloadHelper");
 var Utils = require("../util/utils");
 var Net = require("../util/net");
+var $ = require("jquery");
 
 var PTPOI_BID_OFFSET = 1e10;
 

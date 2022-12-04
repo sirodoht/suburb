@@ -22,7 +22,7 @@ const outputDirectory = 'disttmp'
  * 
  * @deprecated
  */
-function writeHeadersJsonForOutputFiles() {
+function writeHeadersJsonForOutputFiles(isDev) {
   function writeHeadersJson(matchGlob, headersData = {}) {
     const files = glob.sync(path.resolve(__dirname, outputDirectory, matchGlob))
     files.forEach((f, i) => {
@@ -43,7 +43,7 @@ function writeHeadersJsonForOutputFiles() {
   function writeHeadersJsonJs() {
     const headersData = {
       'x-amz-acl': 'public-read',
-      'Content-Encoding': 'gzip',
+      ...(!isDev && { 'Content-Encoding': 'gzip' }),
       'Content-Type': 'application/javascript',
       'Cache-Control':
         'no-transform,public,max-age=31536000,s-maxage=31536000'
@@ -52,10 +52,22 @@ function writeHeadersJsonForOutputFiles() {
     writeHeadersJson('*.js', headersData)
   }
 
+  function writeHeadersJsonCss() {
+    const headersData = {
+      'x-amz-acl': 'public-read',
+      ...(!isDev && { 'Content-Encoding': 'gzip' }),
+      'Content-Type': 'application/javascript',
+      'Cache-Control':
+        'no-transform,public,max-age=31536000,s-maxage=31536000'
+    }
+    writeHeadersJson('css/*.css', headersData)
+  }
+
   function writeHeadersJsonMisc() {
     writeHeadersJson('favicon.ico')
   }
 
+  writeHeadersJsonCss()
   writeHeadersJsonHtml()
   writeHeadersJsonJs()
   writeHeadersJsonMisc()
@@ -68,10 +80,12 @@ module.exports = (env, options) => {
   return {
     entry: [
       './js/main',
+      './vis2/vis2.js',
       './css/polis_main.scss'
     ],
     output: {
       publicPath: '/',
+      // globalObject: 'window',
       filename: `js/participation_bundle.[chunkhash:8].js`,
       path: path.resolve(__dirname, outputDirectory),
       clean: true
@@ -79,14 +93,16 @@ module.exports = (env, options) => {
     resolve: {
       extensions: ['.js', '.css', '.png', '.svg'],
       alias: {
-        'jquery': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
-        'handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
+        // 'jquery': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
+        'handlebars': path.resolve(__dirname, 'node_modules/handlebars/dist/handlebars.runtime.js'),
         'backbone': path.resolve(__dirname, 'node_modules/backbone/backbone'), // FIXME: Needed?
-        'custom-backbone': path.resolve(__dirname, 'js/net/backbonePolis'),
-        'underscore': path.resolve(__dirname, 'node_modules/underscore/underscore'), // FIXME: Needed?
+      //   'custom-backbone': path.resolve(__dirname, 'js/net/backbonePolis'),
+        // 'underscore': path.resolve(__dirname, 'node_modules/underscore/underscore'), // FIXME: Needed?
         'handlebones': path.resolve(__dirname, 'node_modules/handlebones/handlebones'),
-        'markdown': path.resolve(__dirname, 'node_modules/markdown/lib/markdown.js'),
-        'visview': path.resolve(__dirname, 'js/lib/VisView'),
+        // 'markdown': path.resolve(__dirname, 'node_modules/markdown/lib/index.js'),
+        // 'visview': path.resolve(__dirname, 'js/lib/VisView'),
+        // 'handlebars-v1',
+        'deepcopy': path.resolve(__dirname, 'node_modules/deepcopy/deepcopy.js')
       }
     },
     devServer: {
@@ -103,15 +119,17 @@ module.exports = (env, options) => {
     plugins: [
       // Define some globals
       new webpack.ProvidePlugin({
-        '$': 'jquery',
-        'jQuery': 'jquery',
+        '$': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
         'Handlebars': 'handlebars',
-        'Backbone': 'backbone', // FIXME: Is this actually necessary?
-        'Backbone': 'custom-backbone',
-        '_': 'underscore',
+        // 'Handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
+        'Backbone': 'backbone',
+        // 'jQuery': 'jquery',
+      //   'Backbone': 'backbone', // FIXME: Is this actually necessary?
+      //   'Backbone': 'custom-backbone',
+        '_': 'lodash',
         'Handlebones': 'handlebones',
-        'markdown': 'markdown',
-        'VisView': 'visview'
+        // 'markdown': 'markdown',
+        'VisView': 'js/lib/VisView'
       }),
       new CopyPlugin({
         patterns: [
@@ -123,6 +141,9 @@ module.exports = (env, options) => {
               return lodashTemplate(content.toString())({ polisHostName: polisConfig.SERVICE_HOSTNAME })
             }
           },
+          { from: 'node_modules/d3/d3.min.js', to: './js/d3.min.js' },
+          { from: 'js/3rdparty/d3.v4.min.js', to: './js/d3.v4.min.js' },
+
           { from: 'node_modules/font-awesome/fonts/**/*', to: './fonts/[name][ext]' }
         ]
       }),
@@ -143,18 +164,19 @@ module.exports = (env, options) => {
         placeholders: true,
         shorthands: true
       }),
+      // Generate the .headersJson files ...
+      new EventHooksPlugin({
+        afterEmit: () => {
+          console.log('Writing *.headersJson files...')
+          writeHeadersJsonForOutputFiles(isDevBuild || isDevServer)
+        }
+      }),
       // Only compress and create headerJson files during production builds.
       ...((isDevBuild || isDevServer) ? [] : [
-        // new CompressionPlugin({
-        //   test: /\.js$/,
-        //   filename: '[path][base]',
-        //   deleteOriginalAssets: true
-        // }),
-        new EventHooksPlugin({
-          afterEmit: () => {
-            console.log('Writing *.headersJson files...')
-            writeHeadersJsonForOutputFiles()
-          }
+        new CompressionPlugin({
+          test: /\.(js|css)$/,
+          filename: '[path][base]',
+          deleteOriginalAssets: true
         })
       ])
     ],
@@ -175,11 +197,31 @@ module.exports = (env, options) => {
         },
         {
           test: /\.m?js$/,
-          exclude: /node_modules/,
+          exclude: [
+            /node_modules/
+          ],
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env', '@babel/preset-react'],
+              presets: [
+                '@babel/preset-env',
+                '@babel/react'
+              ]
+            },
+          },
+        },
+        {
+          test: /(deepcopy|d3-tip)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                '@babel/react'
+              ],
+              // deepcopy has a reference to 'this' which it assumes is 'window'
+              // see - https://stackoverflow.com/a/34983495
+              sourceType: 'script'
             },
           },
         },
@@ -203,7 +245,93 @@ module.exports = (env, options) => {
             },
             'sass-loader'
           ]
+        },
+        // Shims
+        {
+          test: /bootstrap\/(transition|button|tooltip|affix|dropdown|collapse|popover|tab|alert)/,
+          use: [
+            {
+              loader: 'imports-loader',
+              options: {
+                imports: [
+                  'default jquery jQuery'
+                ]
+              }
+            }
+          ]
+        },
+        {
+          test: /backbone\/backbone$/,
+          use: [
+            {
+              loader: 'imports-loader',
+              options: {
+                imports: [
+                  'default jquery $',
+                  'default underscore _'
+                ]
+              }
+            }
+          ]
+        },
+        {
+          test: /handlebones$/,
+          use: [
+            {
+              loader: 'imports-loader',
+              options: {
+                imports: [
+                  'default handlebars Handlebars',
+                  'default backbone Backbone',
+                  'default lodash _'
+                ]
+              }
+            }
+          ]
+        },
+        {
+          test: /markdown\.js/,
+          use: [
+            {
+              loader: 'imports-loader',
+              options: {
+                imports: [
+                  'default jquery jQuery'
+                ]
+              }
+            }
+          ]
+        },
+        {
+          test: require.resolve('./js/lib/VisView'),
+          use: [
+            {
+              loader: 'imports-loader',
+              options: {
+                imports: [
+                  'default d3-tip foo'
+                ]
+              }
+            }
+          ]
         }
+        // {
+        //   test: /vis2\.js$/,
+        //   exclude: /node_modules/,
+        //   include: path.join(__dirname, "vis2"),
+        //   use: [
+        //     {
+        //       loader: 'babel-loader',
+        //       options: {
+        //         presets: ['@babel/preset-env', '@babel/preset-react'],
+        //       },
+        //     },
+        //     {
+        //       loader: 'file-loader',
+        //       options: { outputPath: 'js/', name: 'vis_bundle.js' }
+        //     }
+        //   ]
+        // }
       ]
     }
   }

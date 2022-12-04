@@ -81,6 +81,7 @@
     "handlebars-loader": "^1.7.2",
     "handlebars-webpack-plugin": "^2.2.1",
     "html-webpack-plugin": "^5.5.0",
+    "imports-loader": "^4.0.1",
     "lodash-webpack-plugin": "^0.11.6",
     "node-sass": "^4.11.0",
     "sass": "^1.56.1",
