@@ -80,12 +80,10 @@ module.exports = (env, options) => {
   return {
     entry: [
       './js/main',
-      './vis2/vis2.js',
       './css/polis_main.scss'
     ],
     output: {
       publicPath: '/',
-      // globalObject: 'window',
       filename: `js/participation_bundle.[chunkhash:8].js`,
       path: path.resolve(__dirname, outputDirectory),
       clean: true
@@ -129,7 +127,7 @@ module.exports = (env, options) => {
         '_': 'lodash',
         'Handlebones': 'handlebones',
         // 'markdown': 'markdown',
-        'VisView': 'js/lib/VisView'
+        // 'VisView': 'js/lib/VisView'
       }),
       new CopyPlugin({
         patterns: [
@@ -157,13 +155,13 @@ module.exports = (env, options) => {
           d3Filename: 'd3.min.js', // FIXME: Needed?
         }
       }),
-      new LodashReplacementPlugin({
-        currying: true,
-        flattening: true,
-        paths: true,
-        placeholders: true,
-        shorthands: true
-      }),
+      // new LodashReplacementPlugin({
+      //   currying: true,
+      //   flattening: true,
+      //   paths: true,
+      //   placeholders: true,
+      //   shorthands: true
+      // }),
       // Generate the .headersJson files ...
       new EventHooksPlugin({
         afterEmit: () => {
@@ -171,7 +169,7 @@ module.exports = (env, options) => {
           writeHeadersJsonForOutputFiles(isDevBuild || isDevServer)
         }
       }),
-      // Only compress and create headerJson files during production builds.
+      // Only compress files during production builds.
       ...((isDevBuild || isDevServer) ? [] : [
         new CompressionPlugin({
           test: /\.(js|css)$/,
@@ -203,25 +201,7 @@ module.exports = (env, options) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: [
-                '@babel/preset-env',
-                '@babel/react'
-              ]
-            },
-          },
-        },
-        {
-          test: /(deepcopy|d3-tip)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                '@babel/react'
-              ],
-              // deepcopy has a reference to 'this' which it assumes is 'window'
-              // see - https://stackoverflow.com/a/34983495
-              sourceType: 'script'
+              presets: ['@babel/preset-env', '@babel/react']
             },
           },
         },
@@ -246,7 +226,23 @@ module.exports = (env, options) => {
             'sass-loader'
           ]
         },
-        // Shims
+        // Shims for older modules
+        {
+          test: /(deepcopy|d3-tip)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                '@babel/react'
+              ],
+              // deepcopy and d3-tip have references to 'this' which it assumes is 'window'
+              // see - https://stackoverflow.com/a/34983495
+              sourceType: 'script'
+            },
+          },
+        },
+        // These modules expect various globals to be present e.g. jQuery
         {
           test: /bootstrap\/(transition|button|tooltip|affix|dropdown|collapse|popover|tab|alert)/,
           use: [
@@ -268,7 +264,7 @@ module.exports = (env, options) => {
               options: {
                 imports: [
                   'default jquery $',
-                  'default underscore _'
+                  'default lodash _'
                 ]
               }
             }
@@ -288,76 +284,8 @@ module.exports = (env, options) => {
               }
             }
           ]
-        },
-        {
-          test: /markdown\.js/,
-          use: [
-            {
-              loader: 'imports-loader',
-              options: {
-                imports: [
-                  'default jquery jQuery'
-                ]
-              }
-            }
-          ]
-        },
-        {
-          test: require.resolve('./js/lib/VisView'),
-          use: [
-            {
-              loader: 'imports-loader',
-              options: {
-                imports: [
-                  'default d3-tip foo'
-                ]
-              }
-            }
-          ]
         }
-        // {
-        //   test: /vis2\.js$/,
-        //   exclude: /node_modules/,
-        //   include: path.join(__dirname, "vis2"),
-        //   use: [
-        //     {
-        //       loader: 'babel-loader',
-        //       options: {
-        //         presets: ['@babel/preset-env', '@babel/preset-react'],
-        //       },
-        //     },
-        //     {
-        //       loader: 'file-loader',
-        //       options: { outputPath: 'js/', name: 'vis_bundle.js' }
-        //     }
-        //   ]
-        // }
       ]
     }
   }
 }
-
-// module.exports = {
-//   // devtool: "source-map",
-//   entry: [
-//     "./vis2/vis2"
-//   ],
-//   output: {
-//     path: path.join(__dirname, "dist_foo"),
-//     filename: "vis_bundle.js",
-//     publicPath: "SET_THIS_FROM_GULP"
-//   },
-//   mode: 'production',
-//   optimization: {
-//     minimize: true,
-//   },
-//   module: {
-//     rules: [
-//       {
-//         test: /\.js$/,
-//         loader: "babel-loader",
-//         include: path.join(__dirname, "vis2"),
-//       }
-//     ]
-//   }
-// };

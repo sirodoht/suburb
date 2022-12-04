@@ -200,7 +200,7 @@ module.exports = function(params) {
         return;
       }
       // getCommentVelocities().then(function() {
-      var IDs = _.pluck(comments, "tid");
+      var IDs = _.map(comments, "tid");
       var oldkeys = _.keys(commentsToVoteOn).map(
         function(tid) {
           return parseInt(tid, 10);
@@ -950,7 +950,7 @@ module.exports = function(params) {
         }
       }
       if (duplicateColumns.length) {
-        alert('removing duplicate columns: ' + _.pluck(duplicateColumns, "name"));
+        alert('removing duplicate columns: ' + _.map(duplicateColumns, "name"));
       }
       // Remove duplicate columns
       (function() {
@@ -1785,7 +1785,7 @@ module.exports = function(params) {
     $.when(votesForTidBidPromise, clustersCachePromise).done(function() {
 
       var tidToR = _.indexBy(repness[gid], "tid");
-      var tids = _.pluck(repness[gid], "tid");
+      var tids = _.map(repness[gid], "tid");
 
       // // Grab stats and turn into list of triples for easier mogrification
       // var tidToStats = groupVoteStats(clustersCache[gid], votesForTidBid);
@@ -2000,7 +2000,7 @@ module.exports = function(params) {
         }
       });
       participantsOfInterestVotes = x;
-      participantsOfInterestBids = _.pluck(_.values(participantsOfInterestVotes), "bid");
+      participantsOfInterestBids = _.map(_.values(participantsOfInterestVotes), "bid");
     });
   }
 
@@ -2210,7 +2210,7 @@ module.exports = function(params) {
   //     });
   //     var buckets = []; // index==bid, [voteForTidAt0, voteForTidAt1, ...]
   //     var len = comments[0].votes.length;
-  //     var tids = _.map(_.pluck(comments, "tid"), function(tid) { return Number(tid);});
+  //     var tids = _.map(_.map(comments, "tid"), function(tid) { return Number(tid);});
   //     var tidToIndex = {};
   //     _.each(comments, function(o) {
   //         // Pack the subsets of tids into a dense array.

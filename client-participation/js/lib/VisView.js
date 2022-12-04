@@ -3,14 +3,11 @@
 var eb = require("../eventBus");
 var display = require("../util/display");
 var Utils = require("../util/utils");
+require('d3-tip');
 // TODO are we using force Layout or not? not really. so it may be worth cleaning up to simplify.
 // Use a css animation to transition the position
 
-/*jshint -W098 */
-var VisView;
-/*jshint +W098 */
-
-VisView = function(params) {
+export default function(params) {
 
   var el_selector = params.el;
   var el_queryResultSelector = params.el_queryResultSelector;
@@ -469,7 +466,7 @@ VisView = function(params) {
 
 
   function updateHulls() {
-    bidToBucket = _.object(_.pluck(nodes, "bid"), nodes);
+    bidToBucket = _.object(_.map(nodes, "bid"), nodes);
     hulls = clusters.map(function(cluster) {
       var temp = _.map(cluster, function(bid) {
         var bucket = bidToBucket[bid];

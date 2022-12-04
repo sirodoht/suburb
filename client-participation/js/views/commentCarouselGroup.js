@@ -43,7 +43,7 @@ module.exports = CommentCarousel.extend({
     $("#numMembers").text(peopleLabel).show();
     var repnessInfo = info.repness.slice(0);
 
-    var tids = _.pluck(repnessInfo, "tid");
+    var tids = _.map(repnessInfo, "tid");
 
     // Copy comments out of collection. don't want to sort collection, since it's shared with Analyze View.
     var comments = that.collection.models.slice(0);

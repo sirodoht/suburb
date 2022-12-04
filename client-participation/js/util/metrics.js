@@ -17,9 +17,9 @@ function upload() {
     return;
   }
   polisPost("api/v3/metrics", {
-    types: _.pluck(metrics, "type"),
-    times: _.pluck(metrics, "time"),
-    durs: _.pluck(metrics, "dur"),
+    types: _.map(metrics, "type"),
+    times: _.map(metrics, "time"),
+    durs: _.map(metrics, "dur"),
     clientTimestamp: Date.now(),
   }).then(function() {
     metrics = [];

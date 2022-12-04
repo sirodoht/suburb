@@ -342,7 +342,7 @@ module.exports = ConversationView.extend({
     });
 
     // remove any items from divisive list that are also in top list
-    var topTids = _.pluck(topComments, "tid");
+    var topTids = _.map(topComments, "tid");
     divisiveComments = _.filter(divisiveComments, function(c) {
       return topTids.indexOf(c.tid) >= 0;
     });
