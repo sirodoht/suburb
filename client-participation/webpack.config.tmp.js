@@ -5,8 +5,7 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const EventHooksPlugin = require('event-hooks-webpack-plugin')
 const LodashReplacementPlugin = require('lodash-webpack-plugin')
-const HandlebarsPlugin = require('handlebars-webpack-plugin')
-const lodashTemplate = require('lodash.template')
+const lodashTemplate = require('lodash/template')
 const glob = require('glob')
 const fs = require('fs')
 const pkg = require('./package.json')
@@ -96,6 +95,9 @@ module.exports = (env, options) => {
         'handlebones': path.resolve(__dirname, 'node_modules/handlebones/handlebones'),
         // 'handlebars-v1',
         'deepcopy': path.resolve(__dirname, 'node_modules/deepcopy/deepcopy.js')
+      },
+      fallback: {
+        util: require.resolve('util/')
       }
     },
     devServer: {
@@ -115,8 +117,9 @@ module.exports = (env, options) => {
         '$': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
         // 'Handlebars': 'handlebars',
         // 'Handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
-        'Backbone': 'backbone',
-        'Handlebones': 'handlebones',
+        Backbone: 'backbone',
+        Handlebones: 'handlebones',
+        process: 'process/browser'
       }),
       new CopyPlugin({
         patterns: [
@@ -206,7 +209,7 @@ module.exports = (env, options) => {
         },
         // Shims for older modules
         {
-          test: /(deepcopy|d3-tip)/,
+          test: /d3-tip/,
           use: {
             loader: 'babel-loader',
             options: {
@@ -214,13 +217,27 @@ module.exports = (env, options) => {
                 '@babel/preset-env',
                 '@babel/react'
               ],
-              // deepcopy and d3-tip have references to 'this' which it assumes is 'window'
-              // see - https://stackoverflow.com/a/34983495
-              sourceType: 'script'
+              sourceType: 'script' // set 'this' to 'window'
             },
           },
         },
         // These modules expect various globals to be present e.g. jQuery before they can be imported
+        {
+          test: /deepcopy/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env',
+                '@babel/react'
+              ],
+              sourceType: 'script', // set 'this' to 'window'
+              // imports: [
+              //   'default util util'
+              // ]
+            },
+          },
+        },
         {
           test: /bootstrap\/(transition|button|tooltip|affix|dropdown|collapse|popover|tab|alert)/,
           use: [
