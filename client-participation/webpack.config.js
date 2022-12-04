@@ -207,7 +207,6 @@ module.exports = (env, options) => {
             },
           },
         },
-        // These modules expect various globals to be present e.g. jQuery before they can be imported
         {
           test: /deepcopy/,
           use: {
@@ -218,9 +217,6 @@ module.exports = (env, options) => {
                 '@babel/react'
               ],
               sourceType: 'script', // set 'this' to 'window'
-              // imports: [
-              //   'default util util'
-              // ]
             },
           },
         },
@@ -231,6 +227,7 @@ module.exports = (env, options) => {
               loader: 'imports-loader',
               options: {
                 imports: [
+                  // Expects jQuery to be present
                   'default jquery jQuery'
                 ]
               }
@@ -244,6 +241,7 @@ module.exports = (env, options) => {
               loader: 'imports-loader',
               options: {
                 imports: [
+                  // Expects jQuery and lodash to be present
                   'default jquery $',
                   'default lodash _'
                 ]
@@ -258,6 +256,7 @@ module.exports = (env, options) => {
               loader: 'imports-loader',
               options: {
                 imports: [
+                  // Expects lodash, Backbone and handlebars to be present
                   'default handlebars Handlebars',
                   'default backbone Backbone',
                   'default lodash _'
