@@ -2,6 +2,7 @@
 
 var URLs = require("../util/url");
 var $ = require("jquery");
+var Backbone = require('backbone');
 
 var urlPrefix = URLs.urlPrefix;
 

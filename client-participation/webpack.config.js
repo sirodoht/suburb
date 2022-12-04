@@ -93,35 +93,18 @@ module.exports = (env, options) => {
     resolve: {
       extensions: ['.js', '.css', '.png', '.svg'],
       alias: {
+        // The following modules need deep importing of JS files
         'handlebars': path.resolve(__dirname, 'node_modules/handlebars/dist/cjs/handlebars.runtime.js'),
-        'backbone': path.resolve(__dirname, 'node_modules/backbone/backbone'), // FIXME: Needed?
         'handlebones': path.resolve(__dirname, 'node_modules/handlebones/handlebones'),
-        // 'handlebars-v1',
         'deepcopy': path.resolve(__dirname, 'node_modules/deepcopy/deepcopy.js')
       },
       fallback: {
         util: require.resolve('util/')
       }
     },
-    devServer: {
-      historyApiFallback: true,
-      // TODO: Set up API proxy later for server component.
-      // See: https://webpack.js.org/configuration/dev-server/#devserverproxy
-      // proxy: {
-      //   '/api': {
-      //   target: 'https://pol.is',
-      //   secure: false,
-      //   },
-      // },
-    },
     plugins: [
       // Define some globals
       new webpack.ProvidePlugin({
-        '$': path.resolve(__dirname, 'js/3rdparty/jquery.min.js'),
-        // 'Handlebars': 'handlebars',
-        // 'Handlebars': path.resolve(__dirname, 'node_modules/handlebars-v1/dist/handlebars.runtime.js'),
-        Backbone: 'backbone',
-        Handlebones: 'handlebones',
         process: 'process/browser'
       }),
       new CopyPlugin({
