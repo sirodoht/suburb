@@ -6,7 +6,7 @@ export STATIC_FILES_HOST=localhost
 export STATIC_FILES_PORT=8080
 export STATIC_FILES_ADMINDASH_PORT=8080
 
-export DATABASE_URL=postgres://polis:@localhost:5432/polis
+export DATABASE_URL=postgres://polis:mypassword@localhost:5432/polis
 export DATABASE_FOR_READS_NAME=DATABASE_URL
 
 export DEV_MODE=true

@@ -1,5 +1,5 @@
 var $ = require("jquery");
-var _ = require("underscore");
+var _ = require("lodash");
 var Backbone = require("backbone");
 var bbFetch = require("../net/bbFetch");
 var ConversationModel = require("../models/conversation");
