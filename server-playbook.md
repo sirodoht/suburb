@@ -38,6 +38,10 @@ passwd polis
 
 apt install -y postgresql g++ git make python python-dev libpq-dev direnv
 
+# configure direnv
+echo "eval \"\$(direnv hook bash)\"" >> ~/.bashrc
+source ~/.bashrc
+
 # node.js
 curl -L https://raw.githubusercontent.com/tj/n/master/bin/n -o n
 bash n lts
@@ -45,6 +49,11 @@ npm install -g n
 n 18.12.1 # for client-participation build
 n 11.15.0
 npm install -g npm@7.0
+```
+
+```
+# user:ubuntu
+git clone https://github.com/sirodoht/polis.git
 ```
 
 ## polis/database
@@ -61,8 +70,11 @@ psql
 
 ```sql
 postgres=# ALTER USER polis CREATEDB;
+ALTER USER polis PASSWORD '<some-password>';
 \q
 ```
+
+where `<some-password>` is your user's database password.
 
 Now follow the instructions in the [database README](database/README.md) switching out polis for ubuntu if on the development system.
 
@@ -72,10 +84,9 @@ Now follow the instructions in the [database README](database/README.md) switchi
 # user:root (production only)
 su - polis
 
-git clone https://github.com/sirodoht/polis.git
 cd polis/server/
 
-cp .envrc.example .envrc
+cp .envrc.example .envrc  # Be sure to update DATABASE_URL accordingly
 direnv allow .
 npm install
 npm run build
@@ -143,17 +154,22 @@ npm install
 # bring all js bundles here
 mkdir build
 make
+
+npm run start
 ```
 
 ## polis/math
 
 ```sh
 # user:root
+cp .envrc.example .envrc # Be sure to update DATABASE_URL accordingly
 apt install -y openjdk-17-jre rlwrap
 curl -O https://download.clojure.org/install/linux-install-1.11.1.1155.sh
 chmod +x linux-install-1.11.1.1155.sh
 ./linux-install-1.11.1.1155.sh
 rm linux-install-1.11.1.1155.sh
+
+# user:polis
 clojure -A:dev -P
 clojure -M:run full
 ```
